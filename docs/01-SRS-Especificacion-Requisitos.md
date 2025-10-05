@@ -1182,7 +1182,7 @@ soco>=0.29.0  # Sonos
 
 **Could Have (Deseables):**
 - RF-009 a RF-011, RF-015, RF-021, RF-026, RF-031 a RF-033
-- RNF-021 a RNF-025, RNF-029 a RNF-030
+- RNF-021 a RNF-025
 
 **Won't Have (Fuera de alcance para v1.0):**
 - RF-017 (descubrimiento automático completo)

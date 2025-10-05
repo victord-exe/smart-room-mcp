@@ -320,7 +320,7 @@ Para completar SRCS, crearemos los siguientes módulos:
 
 - ✅ **Aprobado por**: Alejandro Mosquera, Victor Rodríguez
 - ✅ **Revisado por**: Ing. Aris Castillo, MSC
-- **Fecha de Aprobación**: Enero 2025
+- **Fecha de Aprobación**: Octubre 2025
 
 ---
 
@@ -329,7 +329,7 @@ Para completar SRCS, crearemos los siguientes módulos:
 ### Metadata
 
 - **Estado**: ✅ **Aceptado**
-- **Fecha**: Enero 2025
+- **Fecha**: Octubre 2025
 - **Participantes**: Alejandro Mosquera, Victor Rodríguez, Ing. Aris Castillo
 
 ### Contexto
@@ -418,7 +418,7 @@ Usar **Python 3.12+** con **LangChain** y **LangGraph** como stack principal.
 ### Metadata
 
 - **Estado**: ✅ **Aceptado**
-- **Fecha**: Enero 2025
+- **Fecha**: Octubre 2025
 - **Participantes**: Alejandro Mosquera, Victor Rodríguez
 
 ### Contexto

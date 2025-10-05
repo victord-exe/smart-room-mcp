@@ -2,11 +2,14 @@
 ## Smart Room Control System (SRCS)
 
 **Universidad Tecnológica de Panamá**
+
 **Facultad de Ingeniería de Sistemas Computacionales**
 
 **Autores:** Alejandro Mosquera, Victor Rodríguez
+
 **Versión:** 1.0
-**Fecha:** Enero 2025
+
+**Fecha:** Oct 2025
 
 ---
 

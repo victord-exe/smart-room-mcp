@@ -612,7 +612,7 @@ Los requisitos funcionales están organizados por subsistema del Smart Room Cont
 - **Prioridad**: Alta
 - **Dependencias**: Ninguna
 
-**RF-017: Descubrimiento Automático de Dispositivos**
+**RF-017: Descubrimiento Automático de Dispositivos**   <----- DEBATIBLE
 - **Descripción**: El sistema debe poder descubrir automáticamente dispositivos IoT compatibles en la red local.
 - **Entrada**: Escaneo de red local
 - **Procesamiento**:

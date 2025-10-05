@@ -1345,6 +1345,8 @@ Este documento será actualizado a medida que evolucione el sistema y se identif
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Oct 2025
+
 **Autores:** Alejandro Mosquera, Victor Rodríguez
+
 **Asesor:** Ing. Aris Castillo, MSC

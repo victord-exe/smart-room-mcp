@@ -53,8 +53,8 @@ Cada ADR contiene:
 ### Metadata
 
 - **Estado**: ✅ **Aceptado**
-- **Fecha**: Enero 2025
-- **Participantes**: Alejandro Mosquera, Victor Rodríguez, Ing. Aris Castillo
+- **Fecha**: Agosto 2025
+- **Participantes**: Alejandro Mosquera, Victor Rodríguez
 - **Supersede**: N/A
 
 ### Contexto

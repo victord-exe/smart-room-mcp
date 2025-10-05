@@ -5,7 +5,7 @@
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Asesor:** Ing. Aris Castillo, MSC
 
-**Última actualización:** Enero 2025
+**Última actualización:** Octubre 2025
 
 ---
 
@@ -542,6 +542,6 @@ Tareas inmediatas:
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Octubre 2025
 **Responsables:** Alejandro Mosquera, Victor Rodríguez
 **Asesor:** Ing. Aris Castillo, MSC

@@ -6,7 +6,7 @@
 
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Versión:** 1.0
-**Fecha:** Enero 2025
+**Fecha:** Octubre 2025
 
 ---
 
@@ -2376,6 +2376,6 @@ Este documento especifica todas las interfaces públicas del sistema SRCS. Duran
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Octubre 2025
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Asesor:** Ing. Aris Castillo, MSC

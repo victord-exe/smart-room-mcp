@@ -6,7 +6,7 @@
 
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Versión:** 1.0
-**Fecha:** Enero 2025
+**Fecha:** Octubre 2025
 
 ---
 
@@ -1446,6 +1446,6 @@ Estos diagramas de secuencia especifican las interacciones detalladas entre comp
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Octubre 2025
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Asesor:** Ing. Aris Castillo, MSC

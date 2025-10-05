@@ -6,7 +6,7 @@
 
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Versión:** 1.0
-**Fecha:** Enero 2025
+**Fecha:** Octubre 2025
 
 ---
 
@@ -227,6 +227,6 @@ Este documento será actualizado a medida que avance la implementación y se ide
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Octubre 2025
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Asesor:** Ing. Aris Castillo, MSC

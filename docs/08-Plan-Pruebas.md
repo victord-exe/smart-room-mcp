@@ -11,7 +11,7 @@
 - Victor Rodríguez
 
 **Versión:** 1.0
-**Fecha:** Enero 2025
+**Fecha:** Octubre 2025
 
 ---
 
@@ -2957,7 +2957,7 @@ gantt
 
 **Fin del Documento**
 
-_Versión 1.0 - Enero 2025_
+_Versión 1.0 - Octubre 2025_
 
 _Autores: Alejandro Mosquera, Victor Rodríguez_
 

@@ -6,7 +6,7 @@
 
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Versión:** 1.0
-**Fecha:** Enero 2025
+**Fecha:** Octubre 2025
 
 ---
 
@@ -33,9 +33,9 @@ Este documento establece la planificación detallada para el desarrollo del Smar
 
 El plan cubre el desarrollo completo del SRCS desde el fork de mcp-client hasta la entrega final, incluyendo:
 
-- 7 sprints de desarrollo (Sprint 0 a Sprint 6)
-- ~150 horas de trabajo estimadas
-- 6 meses de duración total (Enero - Junio 2025)
+- 11 sprints de desarrollo semanales (Sprint 0 a Sprint 10)
+- ~162 horas de trabajo estimadas
+- 11 semanas de duración (Octubre - Diciembre 2025)
 - Documentación técnica completa
 - Pruebas y validación con usuarios reales
 
@@ -90,8 +90,8 @@ El proyecto se basa en un **fork de [mcp-client-cli](https://github.com/adhikasp
 **Nueva Estimación:**
 - **Original (desde cero):** ~240 horas
 - **Con mcp-client:** ~150 horas
-- **Documentación adicional:** ~10 horas
-- **TOTAL:** ~160 horas
+- **Documentación adicional:** ~12 horas
+- **TOTAL:** ~162 horas
 
 ---
 
@@ -99,350 +99,373 @@ El proyecto se basa en un **fork de [mcp-client-cli](https://github.com/adhikasp
 
 ### 3.1 Línea de Tiempo del Proyecto
 
-| Fase | Período | Duración | Horas Est. | % Avance |
-|------|---------|----------|------------|----------|
-| **Documentación** | Enero 2025 (Semanas 1-2) | 2 semanas | 10h | 85% completado |
-| **Sprint 0** | Enero 2025 (Semana 3) | 1 semana | 6h | 0% |
-| **Sprint 1** | Enero-Febrero (Semanas 4-5) | 2 semanas | 24h | 0% |
-| **Sprint 2** | Febrero (Semanas 6-7) | 2 semanas | 24h | 0% |
-| **Sprint 3** | Febrero-Marzo (Semanas 8-9) | 2 semanas | 20h | 0% |
-| **Sprint 4** | Marzo (Semanas 10-11) | 2 semanas | 20h | 0% |
-| **Sprint 5** | Marzo-Abril (Semanas 12-13) | 2 semanas | 28h | 0% |
-| **Sprint 6** | Abril-Mayo (Semanas 14-17) | 4 semanas | 28h | 0% |
-| **Entrega Final** | Junio 2025 | 2 semanas | - | - |
+| Sprint | Período | Duración | Horas Est. | Objetivo Principal |
+|--------|---------|----------|------------|--------------------|
+| **Documentación** | Agosto-Octubre 2025 | 10 semanas | 12h | Documentación técnica completa ✅ |
+| **Sprint 0** | Oct 7-13, 2025 | 1 semana | 6h | Fork y setup de mcp-client |
+| **Sprint 1** | Oct 14-20, 2025 | 1 semana | 20h | BD + Servidor Lighting |
+| **Sprint 2** | Oct 21-27, 2025 | 1 semana | 20h | Servidor Climate |
+| **Sprint 3** | Oct 28 - Nov 3, 2025 | 1 semana | 20h | Servidor Security |
+| **Sprint 4** | Nov 4-10, 2025 | 1 semana | 20h | Servidor Entertainment + IoT |
+| **Sprint 5** | Nov 11-17, 2025 | 1 semana | 18h | Scene Manager |
+| **Sprint 6** | Nov 18-24, 2025 | 1 semana | 18h | TTS con Piper |
+| **Sprint 7** | Nov 25 - Dic 1, 2025 | 1 semana | 16h | Features avanzadas |
+| **Sprint 8** | Dic 2-8, 2025 | 1 semana | 16h | Admin + Metrics |
+| **Sprint 9** | Dic 9-15, 2025 | 1 semana | 12h | Testing completo |
+| **Sprint 10** | Dic 16-22, 2025 | 1 semana | 12h | Validación usuarios |
+| **Buffer Final** | Dic 23-25, 2025 | 3 días | 4h | Ajustes y entrega |
 
-**Duración Total:** ~19 semanas (~4.5 meses de desarrollo + 1.5 meses buffer)
+**Duración Total Desarrollo:** 11 semanas (Oct 7 - Dic 25, 2025)
+**Duración Total Proyecto:** 6 meses (Agosto - Diciembre 2025)
 
 ### 3.2 Distribución de Esfuerzo por Sprint
 
 ```
 Sprint 0:   6h  [====]
-Sprint 1:  24h  [================]
-Sprint 2:  24h  [================]
+Sprint 1:  20h  [==============]
+Sprint 2:  20h  [==============]
 Sprint 3:  20h  [==============]
 Sprint 4:  20h  [==============]
-Sprint 5:  28h  [==================]
-Sprint 6:  28h  [==================]
-Total:    150h
+Sprint 5:  18h  [=============]
+Sprint 6:  18h  [=============]
+Sprint 7:  16h  [============]
+Sprint 8:  16h  [============]
+Sprint 9:  12h  [=========]
+Sprint 10: 12h  [=========]
+Buffer:     4h  [===]
+Total:    182h (incluye 20h de buffer integrado)
 ```
 
 ### 3.3 Hitos Principales
 
 | Hito | Fecha Objetivo | Entregable |
 |------|---------------|------------|
-| **M0** | Semana 2 | Documentación completa aprobada |
-| **M1** | Semana 3 | Fork de mcp-client configurado y funcional |
-| **M2** | Semana 7 | Primer servidor MCP IoT funcionando |
-| **M3** | Semana 11 | Sistema completo integrado (sin admin) |
-| **M4** | Semana 13 | Funcionalidades avanzadas implementadas |
-| **M5** | Semana 17 | Sistema probado y validado |
-| **M6** | Semana 22 | Entrega final y defensa |
+| **M0** | Oct 5, 2025 | Documentación completa aprobada ✅ |
+| **M1** | Oct 13, 2025 | Fork de mcp-client configurado y funcional |
+| **M2** | Oct 27, 2025 | 2 servidores MCP IoT funcionando |
+| **M3** | Nov 10, 2025 | 4 servidores MCP + IoT integrados |
+| **M4** | Nov 24, 2025 | Scenes + TTS implementados |
+| **M5** | Dic 8, 2025 | Features avanzadas + Admin completo |
+| **M6** | Dic 25, 2025 | Sistema validado y entrega final |
 
 ---
 
 ## 4. Planificación por Sprints
 
-### Sprint 0: Fork y Setup de mcp-client (1 semana)
+### Sprint 0: Fork y Setup de mcp-client (Oct 7-13, 2025)
 
 **Objetivo:** Configurar el entorno de desarrollo basado en mcp-client como fundación del SRCS.
 
-**Duración:** 1 semana (Enero, Semana 3)
-**Esfuerzo Estimado:** 6 horas
+**Duración:** 1 semana | **Esfuerzo:** 6 horas
 
-#### Tareas Detalladas
+#### Tareas Principales
 
-| ID | Tarea | Responsable | Horas | Prioridad |
-|----|-------|-------------|-------|-----------|
-| S0.1 | Fork de repositorio mcp-client-cli | Alejandro | 0.5h | Must |
-| S0.2 | Clonar y renombrar a `smart-room-mcp` | Alejandro | 0.5h | Must |
-| S0.3 | Actualizar pyproject.toml (nombre, autores, descripción) | Alejandro | 0.5h | Must |
-| S0.4 | Actualizar README.md con contexto SRCS | Victor | 1h | Must |
-| S0.5 | Análisis de código mcp-client (cli.py, tool.py, config.py, memory.py) | Ambos | 2h | Must |
-| S0.6 | Configurar entorno Python 3.12+ | Victor | 0.5h | Must |
-| S0.7 | Instalar dependencias y probar CLI básico | Victor | 0.5h | Must |
-| S0.8 | Configurar Ollama y descargar Llama 3.1 | Alejandro | 0.5h | Must |
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S0.1 | Fork de repositorio mcp-client-cli y renombrar a `smart-room-mcp` | Alejandro | 1h |
+| S0.2 | Actualizar pyproject.toml y README.md con contexto SRCS | Victor | 1h |
+| S0.3 | Análisis profundo de código mcp-client (cli.py, tool.py, config.py, memory.py) | Ambos | 2h |
+| S0.4 | Configurar entorno Python 3.12+ e instalar dependencias | Victor | 1h |
+| S0.5 | Configurar Ollama, descargar Llama 3.1 y probar CLI básico | Alejandro | 1h |
 
-#### Entregables
+#### Entregables & Criterios de Aceptación
 
-- ✅ Repositorio `smart-room-mcp` funcional en GitHub
-- ✅ Entorno de desarrollo configurado y probado
-- ✅ Documentación de componentes heredados
-- ✅ CLI básico de mcp-client funcionando
-
-#### Criterios de Aceptación
-
-- [ ] El fork está en GitHub con nombre `smart-room-mcp`
-- [ ] pyproject.toml refleja autores y descripción del SRCS
+- [ ] Repositorio `smart-room-mcp` funcional en GitHub con documentación actualizada
+- [ ] Entorno Python 3.12+ configurado, todas las dependencias instaladas
 - [ ] CLI básico responde a comandos simples
-- [ ] Llama 3.1 está configurado en Ollama y accesible
+- [ ] Llama 3.1 configurado en Ollama y accesible desde el sistema
 
 ---
 
-### Sprint 1: Servidores MCP IoT - Parte 1 (2 semanas)
+### Sprint 1: BD + Servidor Lighting (Oct 14-20, 2025)
 
-**Objetivo:** Implementar los primeros 2 servidores MCP (Lighting y Climate) y probar integración con agente.
+**Objetivo:** Extender base de datos e implementar primer servidor MCP (Lighting).
 
-**Duración:** 2 semanas (Enero-Febrero, Semanas 4-5)
-**Esfuerzo Estimado:** 24 horas
+**Duración:** 1 semana | **Esfuerzo:** 20 horas
 
-#### Tareas Detalladas
+#### Tareas Principales
 
-| ID | Tarea | Responsable | Horas | Prioridad |
-|----|-------|-------------|-------|-----------|
-| S1.1 | Extender schema BD: tablas `devices` y `action_logs` | Alejandro | 2h | Must |
-| S1.2 | Configurar Alembic para migrations | Alejandro | 2h | Must |
-| S1.3 | Crear modelos SQLAlchemy (Device, ActionLog) | Alejandro | 2h | Must |
-| S1.4 | Implementar `mcp-servers/lighting/server.py` | Victor | 5h | Must |
-| S1.4.1 | Tool: `lighting_turn_on` | Victor | 1h | Must |
-| S1.4.2 | Tool: `lighting_turn_off` | Victor | 0.5h | Must |
-| S1.4.3 | Tool: `lighting_set_brightness` | Victor | 1h | Must |
-| S1.4.4 | Tool: `lighting_set_color` | Victor | 1h | Must |
-| S1.4.5 | Tool: `lighting_get_status` | Victor | 1.5h | Must |
-| S1.5 | Implementar `mcp-servers/climate/server.py` | Alejandro | 5h | Must |
-| S1.5.1 | Tool: `climate_set_temperature` | Alejandro | 1.5h | Must |
-| S1.5.2 | Tool: `climate_set_mode` | Alejandro | 1h | Must |
-| S1.5.3 | Tool: `climate_get_current_temperature` | Alejandro | 1h | Must |
-| S1.5.4 | Tool: `climate_get_status` | Alejandro | 1.5h | Must |
-| S1.6 | Configurar servidores en `~/.llm/config.json` | Ambos | 1h | Must |
-| S1.7 | Pruebas de integración con McpToolkit | Ambos | 3h | Must |
-| S1.8 | Tests unitarios (lighting + climate) | Ambos | 4h | Must |
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S1.1 | Extender schema BD: tablas `devices`, `action_logs` + Alembic migrations | Alejandro | 4h |
+| S1.2 | Crear modelos SQLAlchemy (Device, ActionLog) | Alejandro | 2h |
+| S1.3 | Implementar `mcp-servers/lighting/server.py` con 5 tools (turn_on, turn_off, set_brightness, set_color, get_status) | Victor | 7h |
+| S1.4 | Configurar servidor en `~/.llm/config.json` | Victor | 1h |
+| S1.5 | Pruebas de integración con McpToolkit + Agente LLM | Ambos | 3h |
+| S1.6 | Tests unitarios (>65% coverage) | Ambos | 3h |
 
-#### Entregables
+#### Entregables & Criterios de Aceptación
 
-- ✅ 2 servidores MCP implementados y funcionando
-- ✅ Base de datos extendida con migraciones
-- ✅ Configuración de servidores en formato MCP
-- ✅ Tests unitarios con >70% coverage
-
-#### Criterios de Aceptación
-
-- [ ] El agente LLM puede descubrir y usar tools de lighting y climate
-- [ ] Las acciones se registran en `action_logs`
-- [ ] Los dispositivos se persisten en tabla `devices`
-- [ ] Todos los tests unitarios pasan
+- [ ] BD extendida con tablas nuevas + migraciones Alembic funcionales
+- [ ] Servidor MCP Lighting completo con 5 tools funcionando
+- [ ] Agente LLM puede descubrir y usar tools de lighting
+- [ ] Acciones se registran en `action_logs` y dispositivos en `devices`
 - [ ] Comando de voz "enciende la luz" funciona end-to-end
 
 ---
 
-### Sprint 2: Servidores MCP IoT - Parte 2 + Conectores (2 semanas)
+### Sprint 2: Servidor Climate (Oct 21-27, 2025)
 
-**Objetivo:** Completar servidores MCP (Security y Entertainment) e implementar conectores IoT reales.
+**Objetivo:** Implementar segundo servidor MCP (Climate) y validar patrón de servidores.
 
-**Duración:** 2 semanas (Febrero, Semanas 6-7)
-**Esfuerzo Estimado:** 24 horas
+**Duración:** 1 semana | **Esfuerzo:** 20 horas
 
-#### Tareas Detalladas
+#### Tareas Principales
 
-| ID | Tarea | Responsable | Horas | Prioridad |
-|----|-------|-------------|-------|-----------|
-| S2.1 | Implementar `mcp-servers/security/server.py` | Victor | 5h | Must |
-| S2.1.1 | Tool: `security_arm` | Victor | 1.5h | Must |
-| S2.1.2 | Tool: `security_disarm` | Victor | 1h | Must |
-| S2.1.3 | Tool: `security_get_status` | Victor | 1.5h | Must |
-| S2.1.4 | Tool: `security_get_camera_feed` | Victor | 1h | Should |
-| S2.2 | Implementar `mcp-servers/entertainment/server.py` | Alejandro | 5h | Must |
-| S2.2.1 | Tool: `entertainment_play/pause` | Alejandro | 1.5h | Must |
-| S2.2.2 | Tool: `entertainment_set_volume` | Alejandro | 1h | Must |
-| S2.2.3 | Tool: `entertainment_select_source` | Alejandro | 1.5h | Should |
-| S2.2.4 | Tool: `entertainment_get_status` | Alejandro | 1h | Must |
-| S2.3 | Implementar `BaseConnector` (clase abstracta) | Victor | 2h | Must |
-| S2.4 | Implementar `PhilipsHueConnector` | Victor | 4h | Must |
-| S2.5 | Implementar `NestConnector` o `GenericThermostatConnector` | Alejandro | 4h | Should |
-| S2.6 | Integrar conectores con servidores MCP | Ambos | 2h | Must |
-| S2.7 | Tests unitarios (security + entertainment + connectors) | Ambos | 4h | Must |
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S2.1 | Implementar `mcp-servers/climate/server.py` con 4 tools (set_temperature, set_mode, get_current_temp, get_status) | Alejandro | 7h |
+| S2.2 | Configurar servidor Climate en config MCP | Alejandro | 1h |
+| S2.3 | Pruebas de integración con 2 servidores simultáneos | Ambos | 4h |
+| S2.4 | Tests unitarios Climate + tests multi-servidor | Ambos | 4h |
+| S2.5 | Documentar patrón de creación de servidores MCP | Victor | 2h |
+| S2.6 | Refactoring y optimización (DRY, code reuse) | Victor | 2h |
 
-#### Entregables
+#### Entregables & Criterios de Aceptación
 
-- ✅ 4 servidores MCP completos
-- ✅ 2+ conectores IoT funcionando
-- ✅ Sistema puede controlar dispositivos reales (mínimo Philips Hue)
-- ✅ Tests de integración entre servidores y conectores
-
-#### Criterios de Aceptación
-
-- [ ] Los 4 servidores MCP están configurados y accesibles
-- [ ] Al menos 1 dispositivo IoT real (ej: bombillo Philips Hue) puede ser controlado
-- [ ] El sistema maneja errores de conectividad IoT gracefully
-- [ ] Comando "pon seguridad en modo noche" ejecuta múltiples acciones coordinadas
-- [ ] Tests de integración pasan
+- [ ] Servidor MCP Climate completo y funcionando
+- [ ] Sistema coordina 2 servidores MCP simultáneamente
+- [ ] Comando "sube temperatura a 23°C y enciende luces" ejecuta correctamente
+- [ ] Patrón de servidores MCP documentado para siguientes sprints
+- [ ] Coverage de tests >65%
 
 ---
 
-### Sprint 3: Gestión de Escenas + TTS - Parte 1 (2 semanas)
+### Sprint 3: Servidor Security (Oct 28 - Nov 3, 2025)
 
-**Objetivo:** Implementar Scene Manager y comenzar integración de TTS.
+**Objetivo:** Implementar tercer servidor MCP (Security) con funcionalidades de seguridad.
 
-**Duración:** 2 semanas (Febrero-Marzo, Semanas 8-9)
-**Esfuerzo Estimado:** 20 horas
+**Duración:** 1 semana | **Esfuerzo:** 20 horas
 
-#### Tareas Detalladas
+#### Tareas Principales
 
-| ID | Tarea | Responsable | Horas | Prioridad |
-|----|-------|-------------|-------|-----------|
-| S3.1 | Extender schema BD: tabla `scenes` | Alejandro | 1h | Should |
-| S3.2 | Crear modelo SQLAlchemy (Scene) | Alejandro | 1h | Should |
-| S3.3 | Implementar `scene_manager.py` - CRUD básico | Victor | 4h | Should |
-| S3.3.1 | `create_scene(name, actions)` | Victor | 1.5h | Should |
-| S3.3.2 | `get_scene(name)` / `list_scenes()` | Victor | 1h | Should |
-| S3.3.3 | `update_scene(name, actions)` | Victor | 1h | Should |
-| S3.3.4 | `delete_scene(name)` | Victor | 0.5h | Should |
-| S3.4 | Implementar ejecución coordinada de escenas | Victor | 3h | Should |
-| S3.5 | Crear servidor MCP `scene-manager` | Victor | 2h | Should |
-| S3.6 | Implementar `speech_output.py` - TTS con Piper | Alejandro | 5h | Could |
-| S3.6.1 | Configurar Piper TTS | Alejandro | 1h | Could |
-| S3.6.2 | Integrar con output.py de mcp-client | Alejandro | 2h | Could |
-| S3.6.3 | Crear flag `--voice` para habilitar TTS | Alejandro | 1h | Could |
-| S3.6.4 | Probar latencia de respuesta con TTS | Alejandro | 1h | Could |
-| S3.7 | Tests unitarios (SceneManager + TTS) | Ambos | 4h | Should |
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S3.1 | Implementar `mcp-servers/security/server.py` con 4 tools (arm, disarm, get_status, get_camera_feed) | Victor | 8h |
+| S3.2 | Configurar servidor Security en config MCP | Victor | 1h |
+| S3.3 | Implementar manejo de estados de seguridad (armed/disarmed/alarm) | Victor | 3h |
+| S3.4 | Pruebas de integración con 3 servidores | Ambos | 3h |
+| S3.5 | Tests unitarios Security | Ambos | 3h |
+| S3.6 | Validar seguridad de comandos (autenticación básica) | Victor | 2h |
 
-#### Entregables
+#### Entregables & Criterios de Aceptación
 
-- ✅ Scene Manager funcional con persistencia
-- ✅ Servidor MCP `scene-manager` integrado
-- 🔄 TTS básico implementado (opcional)
-- ✅ Tests unitarios
-
-#### Criterios de Aceptación
-
-- [ ] Usuario puede crear escena "Modo Cine" con comandos de voz
-- [ ] Escena ejecuta múltiples acciones en orden (apagar luces, cerrar cortinas, encender TV)
-- [ ] Escenas se persisten en BD y sobreviven reinicio
-- [ ] TTS puede leer respuestas simples (si implementado)
-- [ ] Latencia de creación de escena < 3s
+- [ ] Servidor MCP Security completo con gestión de estados
+- [ ] Sistema coordina 3 servidores MCP de forma robusta
+- [ ] Comandos de seguridad tienen validación de autenticación
+- [ ] Comando "activa seguridad en modo noche" funciona
+- [ ] Tests de seguridad (intentos no autorizados) pasan
 
 ---
 
-### Sprint 4: Gestión de Escenas + TTS - Parte 2 (2 semanas)
+### Sprint 4: Servidor Entertainment + Conectores IoT (Nov 4-10, 2025)
 
-**Objetivo:** Completar funcionalidades avanzadas de Scene Manager y pulir TTS.
+**Objetivo:** Completar 4to servidor MCP e integrar primer conector IoT real.
 
-**Duración:** 2 semanas (Marzo, Semanas 10-11)
-**Esfuerzo Estimado:** 20 horas
+**Duración:** 1 semana | **Esfuerzo:** 20 horas
 
-#### Tareas Detalladas
+#### Tareas Principales
 
-| ID | Tarea | Responsable | Horas | Prioridad |
-|----|-------|-------------|-------|-----------|
-| S4.1 | Implementar triggers para escenas (tiempo, eventos) | Victor | 4h | Could |
-| S4.2 | Implementar condiciones para escenas | Victor | 3h | Could |
-| S4.3 | Implementar rollback de escenas (undo) | Victor | 3h | Could |
-| S4.4 | Optimizar TTS: caché de respuestas comunes | Alejandro | 2h | Could |
-| S4.5 | Mejorar calidad de voz TTS (ajustes de prosody) | Alejandro | 2h | Could |
-| S4.6 | Implementar modo mixto (TTS + texto) | Alejandro | 2h | Could |
-| S4.7 | Crear herramienta MCP `scene_execute_with_params` | Victor | 2h | Should |
-| S4.8 | Tests de integración (escenas + TTS) | Ambos | 2h | Should |
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S4.1 | Implementar `mcp-servers/entertainment/server.py` con 4 tools (play/pause, set_volume, select_source, get_status) | Alejandro | 6h |
+| S4.2 | Implementar `BaseConnector` (clase abstracta para conectores IoT) | Victor | 2h |
+| S4.3 | Implementar `PhilipsHueConnector` (conector IoT real) | Victor | 5h |
+| S4.4 | Integrar PhilipsHueConnector con servidor Lighting | Victor | 2h |
+| S4.5 | Pruebas E2E con dispositivo Philips Hue real | Ambos | 2h |
+| S4.6 | Tests unitarios Entertainment + conectores | Ambos | 3h |
 
-#### Entregables
+#### Entregables & Criterios de Aceptación
 
-- ✅ Scene Manager con triggers y condiciones
-- ✅ TTS optimizado y pulido
-- ✅ Documentación de usuario para escenas
+- [ ] 4 servidores MCP completos e integrados
+- [ ] `BaseConnector` define interfaz estándar para conectores IoT
+- [ ] PhilipsHueConnector controla bombillo Hue real
+- [ ] Sistema maneja errores de conectividad IoT gracefully
+- [ ] Comando "pon las luces en azul" cambia color de Hue real
+- [ ] **HITO M3**: Sistema MCP + IoT completamente integrado
 
-#### Criterios de Aceptación
+### Sprint 5: Scene Manager (Nov 11-17, 2025)
 
-- [ ] Escena puede ejecutarse automáticamente a las 8 PM
-- [ ] Escena "Buenos Días" puede tener condición (si temperatura < 18°C, subir calefacción)
-- [ ] Usuario puede deshacer escena ejecutada
-- [ ] TTS responde en < 1.5s para respuestas cacheadas
-- [ ] Documentación explica cómo crear escenas complejas
+**Objetivo:** Implementar gestión completa de escenas (crear, ejecutar, listar, eliminar).
 
----
+**Duración:** 1 semana | **Esfuerzo:** 18 horas
 
-### Sprint 5: Administración y Aprendizaje (2 semanas)
+#### Tareas Principales
 
-**Objetivo:** Implementar módulos de administración del sistema y aprendizaje de preferencias.
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S5.1 | Extender schema BD: tabla `scenes` + modelo SQLAlchemy | Alejandro | 2h |
+| S5.2 | Implementar `scene_manager.py` - CRUD completo (create, get, list, update, delete) | Victor | 6h |
+| S5.3 | Implementar ejecución coordinada de escenas (orquestación multi-servidor) | Victor | 4h |
+| S5.4 | Crear servidor MCP `scene-manager` con tools MCP | Victor | 3h |
+| S5.5 | Tests unitarios + integración (escenas con múltiples dispositivos) | Ambos | 3h |
 
-**Duración:** 2 semanas (Marzo-Abril, Semanas 12-13)
-**Esfuerzo Estimado:** 28 horas
+#### Entregables & Criterios de Aceptación
 
-#### Tareas Detalladas
-
-| ID | Tarea | Responsable | Horas | Prioridad |
-|----|-------|-------------|-------|-----------|
-| S5.1 | Extender schema BD: tablas `system_metrics` | Alejandro | 1h | Should |
-| S5.2 | Implementar `device_registry.py` (RF-027) | Victor | 4h | Should |
-| S5.2.1 | CRUD de dispositivos | Victor | 2h | Should |
-| S5.2.2 | Auto-discovery de dispositivos IoT | Victor | 2h | Could |
-| S5.3 | Implementar `metrics_collector.py` (RF-030) | Alejandro | 5h | Should |
-| S5.3.1 | Métricas de latencia por comando | Alejandro | 2h | Should |
-| S5.3.2 | Métricas de uso de dispositivos | Alejandro | 2h | Should |
-| S5.3.3 | Generación de reportes básicos | Alejandro | 1h | Could |
-| S5.4 | Implementar análisis de patrones (RF-031) | Victor | 4h | Could |
-| S5.4.1 | Detectar rutinas frecuentes | Victor | 2h | Could |
-| S5.4.2 | Sugerencias de escenas basadas en historial | Victor | 2h | Could |
-| S5.5 | Mejorar `save_memory` tool para preferencias SRCS | Alejandro | 2h | Should |
-| S5.6 | Implementar `user_preferences.py` | Alejandro | 3h | Should |
-| S5.7 | Crear servidor MCP `admin-tools` | Victor | 3h | Should |
-| S5.8 | CLI de administración (opcional) | Alejandro | 2h | Could |
-| S5.9 | Tests unitarios (admin + learning) | Ambos | 4h | Should |
-
-#### Entregables
-
-- ✅ Device Registry con CRUD completo
-- ✅ Metrics Collector recopilando datos
-- 🔄 Sistema de aprendizaje básico (opcional)
-- ✅ Servidor MCP de administración
-
-#### Criterios de Aceptación
-
-- [ ] Admin puede ver todos los dispositivos registrados
-- [ ] Sistema registra latencia de cada comando ejecutado
-- [ ] Sistema puede sugerir crear escena "Llegar a Casa" basado en patrones
-- [ ] Preferencias del usuario se persisten y usan en contexto del agente
-- [ ] Reporte de métricas disponible (JSON o texto)
+- [ ] Scene Manager funcional con persistencia en BD
+- [ ] Servidor MCP `scene-manager` integrado al sistema
+- [ ] Usuario puede crear escena "Modo Cine" por voz (luces off, TV on)
+- [ ] Escena ejecuta múltiples acciones coordinadas en orden correcto
+- [ ] Escenas sobreviven reinicio del sistema
+- [ ] Latencia de ejecución de escena < 3s
 
 ---
 
-### Sprint 6: Pruebas, Validación y Documentación Final (4 semanas)
+### Sprint 6: TTS con Piper (Nov 18-24, 2025)
 
-**Objetivo:** Completar testing exhaustivo, validar con usuarios reales y finalizar documentación.
+**Objetivo:** Implementar Text-to-Speech para respuestas de voz del sistema.
 
-**Duración:** 4 semanas (Abril-Mayo, Semanas 14-17)
-**Esfuerzo Estimado:** 28 horas
+**Duración:** 1 semana | **Esfuerzo:** 18 horas
 
-#### Tareas Detalladas
+#### Tareas Principales
 
-| ID | Tarea | Responsable | Horas | Prioridad |
-|----|-------|-------------|-------|-----------|
-| **Semana 1-2: Testing** | | | | |
-| S6.1 | Completar tests unitarios (objetivo: >70% coverage) | Ambos | 6h | Must |
-| S6.2 | Tests de integración end-to-end | Ambos | 4h | Must |
-| S6.2.1 | Flujo: Comando voz → LLM → MCP → IoT → Respuesta | Ambos | 2h | Must |
-| S6.2.2 | Flujo: Crear escena → Ejecutar escena → Verificar estado | Ambos | 2h | Must |
-| S6.3 | Tests de rendimiento (latencia < 2s) | Alejandro | 3h | Must |
-| S6.4 | Tests de seguridad (SQL injection, XSS en inputs) | Victor | 2h | Should |
-| S6.5 | Tests de resiliencia (dispositivo offline, LLM falla) | Victor | 2h | Should |
-| **Semana 3: Evaluación con Usuarios** | | | | |
-| S6.6 | Reclutamiento de 5-10 usuarios de prueba | Ambos | 1h | Must |
-| S6.7 | Preparar escenarios de evaluación (5 escenarios del doc 08) | Alejandro | 2h | Must |
-| S6.8 | Sesiones de evaluación con usuarios | Ambos | 4h | Must |
-| S6.9 | Recopilación de métricas cuantitativas (latencia, tasa éxito) | Victor | 1h | Must |
-| S6.10 | Aplicar cuestionario SUS (System Usability Scale) | Alejandro | 1h | Must |
-| S6.11 | Análisis de resultados y ajustes | Ambos | 2h | Must |
-| **Semana 4: Documentación** | | | | |
-| S6.12 | Completar `docs/12-Manual-Usuario.md` | Victor | 3h | Must |
-| S6.13 | Crear video demo del sistema (5-10 min) | Alejandro | 2h | Must |
-| S6.14 | Actualizar README.md con instalación y uso | Victor | 1h | Must |
-| S6.15 | Revisar y actualizar toda la documentación | Ambos | 2h | Must |
-| S6.16 | Preparar presentación de defensa | Ambos | 3h | Must |
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S6.1 | Configurar Piper TTS en el sistema | Alejandro | 2h |
+| S6.2 | Implementar `speech_output.py` - integración con output.py de mcp-client | Alejandro | 4h |
+| S6.3 | Crear flag `--voice` para habilitar/deshabilitar TTS | Alejandro | 2h |
+| S6.4 | Optimizar latencia de TTS (target <1.5s) | Alejandro | 3h |
+| S6.5 | Implementar modo mixto (TTS + texto simultáneo) | Alejandro | 2h |
+| S6.6 | Tests de audio (latencia, calidad, errores) | Ambos | 2h |
+| S6.7 | Ajustar calidad de voz (prosody, velocidad) | Alejandro | 2h |
+| S6.8 | Documentar uso de TTS en manual de usuario | Victor | 1h |
 
-#### Entregables
+#### Entregables & Criterios de Aceptación
 
-- ✅ Suite completa de tests (>70% coverage)
-- ✅ Informe de evaluación con usuarios
-- ✅ Manual de usuario completo
-- ✅ Video demo del sistema
-- ✅ Presentación de defensa
+- [ ] TTS funcional con Piper configurado
+- [ ] Flag `--voice` habilita respuestas por voz
+- [ ] Latencia de TTS < 1.5s para respuestas típicas
+- [ ] Calidad de voz es comprensible y natural
+- [ ] Usuario puede elegir modo texto, voz, o ambos
+- [ ] **HITO M4**: Scenes + TTS completamente funcionales
 
-#### Criterios de Aceptación
+---
 
-- [ ] Coverage de tests > 70% en componentes críticos
-- [ ] Latencia promedio de comando simple < 2s (medida con 20+ comandos)
-- [ ] Al menos 5 usuarios completaron evaluación
-- [ ] Puntaje SUS promedio > 68 (Above Average)
-- [ ] Tasa de éxito de comandos > 85%
-- [ ] Manual de usuario permite a un usuario nuevo instalar y usar el sistema
-- [ ] Video demo muestra 5+ funcionalidades principales
+### Sprint 7: Features Avanzadas (Nov 25 - Dic 1, 2025)
+
+**Objetivo:** Implementar funcionalidades avanzadas (triggers, condiciones, parámetros).
+
+**Duración:** 1 semana | **Esfuerzo:** 16 horas
+
+#### Tareas Principales
+
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S7.1 | Implementar triggers básicos para escenas (tiempo programado) | Victor | 4h |
+| S7.2 | Implementar condiciones simples (if-then) para escenas | Victor | 4h |
+| S7.3 | Implementar escenas parametrizadas (scene_execute_with_params) | Victor | 3h |
+| S7.4 | Optimizar TTS: caché de respuestas comunes | Alejandro | 2h |
+| S7.5 | Tests de features avanzadas | Ambos | 2h |
+| S7.6 | Documentar features avanzadas | Victor | 1h |
+
+#### Entregables & Criterios de Aceptación
+
+- [ ] Escenas pueden ejecutarse automáticamente (ej: a las 8 PM)
+- [ ] Escenas con condiciones (ej: si temp < 18°C, subir calefacción)
+- [ ] Escenas aceptan parámetros (ej: "modo cine" con volumen variable)
+- [ ] TTS responde <1s para frases cacheadas
+- [ ] Documentación explica cómo usar features avanzadas
+
+---
+
+### Sprint 8: Admin + Metrics (Dic 2-8, 2025)
+
+**Objetivo:** Implementar módulos de administración y métricas del sistema.
+
+**Duración:** 1 semana | **Esfuerzo:** 16 horas
+
+#### Tareas Principales
+
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S8.1 | Extender schema BD: tabla `system_metrics` | Alejandro | 1h |
+| S8.2 | Implementar `device_registry.py` - CRUD de dispositivos | Victor | 4h |
+| S8.3 | Implementar `metrics_collector.py` - latencia y uso | Alejandro | 5h |
+| S8.4 | Implementar `user_preferences.py` - persistencia de preferencias | Alejandro | 2h |
+| S8.5 | Crear servidor MCP `admin-tools` | Victor | 2h |
+| S8.6 | Tests unitarios admin + metrics | Ambos | 2h |
+
+#### Entregables & Criterios de Aceptación
+
+- [ ] Device Registry con CRUD funcional
+- [ ] Metrics Collector registra latencia de cada comando
+- [ ] Preferencias de usuario se persisten y usan en contexto
+- [ ] Admin puede ver dispositivos y métricas
+- [ ] Reporte de métricas disponible (JSON)
+- [ ] **HITO M5**: Sistema completo con admin y métricas
+
+---
+
+### Sprint 9: Testing Completo (Dic 9-15, 2025)
+
+**Objetivo:** Testing exhaustivo del sistema (unitarios, integración, rendimiento, seguridad).
+
+**Duración:** 1 semana | **Esfuerzo:** 12 horas
+
+#### Tareas Principales
+
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S9.1 | Completar tests unitarios (objetivo: >65% coverage) | Ambos | 4h |
+| S9.2 | Tests de integración E2E (voz → LLM → MCP → IoT → respuesta) | Ambos | 3h |
+| S9.3 | Tests de rendimiento (latencia <2s comandos simples) | Alejandro | 2h |
+| S9.4 | Tests de seguridad (SQL injection, inputs maliciosos) | Victor | 1h |
+| S9.5 | Tests de resiliencia (dispositivos offline, errores LLM) | Victor | 1h |
+| S9.6 | Documentar resultados de testing | Ambos | 1h |
+
+#### Entregables & Criterios de Aceptación
+
+- [ ] Coverage de tests >65% en componentes críticos
+- [ ] Todos los tests E2E pasan (5+ escenarios completos)
+- [ ] Latencia promedio comandos simples <2s (20+ pruebas)
+- [ ] Sistema maneja errores gracefully
+- [ ] Informe de testing documentado
+
+---
+
+### Sprint 10: Validación con Usuarios (Dic 16-22, 2025)
+
+**Objetivo:** Evaluar sistema con usuarios reales y finalizar documentación.
+
+**Duración:** 1 semana | **Esfuerzo:** 12 horas
+
+#### Tareas Principales
+
+| ID | Tarea | Responsable | Horas |
+|----|-------|-------------|-------|
+| S10.1 | Reclutar 3-5 usuarios de prueba | Ambos | 0.5h |
+| S10.2 | Preparar 5 escenarios de evaluación | Alejandro | 1h |
+| S10.3 | Realizar sesiones de evaluación con usuarios | Ambos | 3h |
+| S10.4 | Aplicar cuestionario SUS | Alejandro | 0.5h |
+| S10.5 | Analizar resultados y hacer ajustes críticos | Ambos | 2h |
+| S10.6 | Completar manual de usuario | Victor | 2h |
+| S10.7 | Crear video demo (5-10 min) | Alejandro | 2h |
+| S10.8 | Preparar presentación de defensa | Ambos | 1h |
+
+#### Entregables & Criterios de Aceptación
+
+- [ ] 3-5 usuarios completaron evaluación
+- [ ] Puntaje SUS promedio >68
+- [ ] Tasa de éxito comandos >80%
+- [ ] Manual de usuario completo
+- [ ] Video demo muestra funcionalidades principales
+- [ ] Presentación de defensa lista
+
+---
+
+### Buffer Final (Dic 23-25, 2025)
+
+**Objetivo:** Ajustes finales y entrega.
+
+**Duración:** 3 días | **Esfuerzo:** 4 horas
+
+#### Tareas
+
+- Fixes de bugs críticos encontrados en evaluación
+- Actualizar README.md final
+- Revisión final de documentación
+- Preparación para defensa
+- **HITO M6**: ENTREGA FINAL - Dic 25, 2025
 
 ---
 
@@ -458,45 +481,55 @@ Total:    150h
 
 ### 5.2 Distribución de Tareas por Integrante
 
-#### Alejandro Mosquera (75 horas)
+#### Alejandro Mosquera (~81 horas)
 
 **Áreas de Especialización:**
 - Backend y base de datos
 - Servidores MCP (Climate, Entertainment)
-- TTS y procesamiento de audio
+- TTS con Piper
 - Métricas y administración
 
 **Asignación Detallada:**
 | Sprint | Tareas Principales | Horas |
 |--------|-------------------|-------|
 | Sprint 0 | Fork, setup, análisis de mcp-client | 3h |
-| Sprint 1 | Schema BD, migrations, servidor Climate | 11h |
-| Sprint 2 | Servidor Entertainment, conectores | 13h |
-| Sprint 3 | TTS con Piper, integración | 10h |
-| Sprint 4 | Optimización TTS, modo mixto | 6h |
-| Sprint 5 | Metrics Collector, preferencias | 12h |
-| Sprint 6 | Tests rendimiento, evaluación usuarios, video demo | 13h |
-| **TOTAL** | | **68h** |
+| Sprint 1 | BD schema, migrations, modelos SQLAlchemy | 6h |
+| Sprint 2 | Servidor Climate completo | 10h |
+| Sprint 3 | Servidor Security (parcial) | 4h |
+| Sprint 4 | Servidor Entertainment completo | 10h |
+| Sprint 5 | Scene Manager - BD y soporte | 4h |
+| Sprint 6 | **TTS con Piper - implementación completa** | 15h |
+| Sprint 7 | Optimización TTS (caché) | 4h |
+| Sprint 8 | Metrics Collector + User Preferences | 11h |
+| Sprint 9 | Tests rendimiento | 4h |
+| Sprint 10 | Evaluación usuarios + video demo | 6h |
+| Buffer | Ajustes finales | 2h |
+| **TOTAL** | | **~81h** |
 
-#### Victor Rodríguez (75 horas)
+#### Victor Rodríguez (~81 horas)
 
 **Áreas de Especialización:**
 - Servidores MCP (Lighting, Security)
-- Conectores IoT
-- Scene Manager
+- Conectores IoT (PhilipsHue)
+- Scene Manager completo
 - Testing y QA
 
 **Asignación Detallada:**
 | Sprint | Tareas Principales | Horas |
 |--------|-------------------|-------|
-| Sprint 0 | Setup entorno, documentación, análisis | 3h |
-| Sprint 1 | Servidor Lighting, tests | 12h |
-| Sprint 2 | Servidor Security, conectores IoT | 13h |
-| Sprint 3 | Scene Manager (CRUD + ejecución) | 9h |
-| Sprint 4 | Triggers, condiciones, rollback | 10h |
-| Sprint 5 | Device Registry, aprendizaje | 11h |
-| Sprint 6 | Tests integración, seguridad, manual usuario | 14h |
-| **TOTAL** | | **72h** |
+| Sprint 0 | Setup entorno, documentación | 3h |
+| Sprint 1 | Servidor Lighting completo + tests | 11h |
+| Sprint 2 | Documentación patrones + refactoring | 8h |
+| Sprint 3 | Servidor Security completo | 12h |
+| Sprint 4 | BaseConnector + PhilipsHueConnector | 9h |
+| Sprint 5 | **Scene Manager CRUD + ejecución** | 13h |
+| Sprint 6 | Documentación TTS | 3h |
+| Sprint 7 | Triggers + condiciones para escenas | 11h |
+| Sprint 8 | Device Registry + Admin tools | 8h |
+| Sprint 9 | Tests E2E + seguridad | 6h |
+| Sprint 10 | Manual usuario + presentación defensa | 5h |
+| Buffer | Ajustes finales | 2h |
+| **TOTAL** | | **~81h** |
 
 ### 5.3 Responsabilidades Compartidas
 
@@ -960,7 +993,7 @@ Nos comprometemos a:
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Octubre 2025
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Asesor:** Ing. Aris Castillo, MSC
-**Estado:** ✅ APROBADO PARA EJECUCIÓN
+**Estado:** ✅ APROBADO PARA EJECUCIÓN - Cronograma Ajustado

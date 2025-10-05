@@ -1,0 +1,1 @@
+- El proyecto comenzo en agosto de 2025.

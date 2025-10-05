@@ -6,7 +6,7 @@
 
 **Autores:** Alejandro Mosquera, Victor Rodríguez
 **Versión:** 1.0
-**Fecha:** Enero 2025
+**Fecha:** Octubre 2025
 
 ---
 
@@ -1172,6 +1172,6 @@ Este manual es parte del proyecto Smart Room Control System (SRCS), desarrollado
 
 ---
 
-**Última actualización:** Enero 2025
+**Última actualización:** Octubre 2025
 **Versión del Manual:** 1.0
 **Versión de SRCS:** 1.0.0

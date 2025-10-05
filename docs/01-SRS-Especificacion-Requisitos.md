@@ -995,19 +995,6 @@ Los requisitos no funcionales definen atributos de calidad del sistema.
 - **Objetivo**: Al menos 2 modelos (Llama + uno adicional como Mistral)
 - **Método de verificación**: Prueba de intercambio de modelos
 
-#### 3.2.7 Escalabilidad
-
-**RNF-029: Escalabilidad de Dispositivos**
-- **Descripción**: El sistema debe soportar hasta 20 dispositivos IoT simultáneos sin degradación de rendimiento.
-- **Métrica**: Latencia con 3 dispositivos vs 20 dispositivos
-- **Objetivo**: Aumento de latencia ≤ 20%
-- **Método de medición**: Pruebas de carga incremental
-
-**RNF-030: Escalabilidad de Usuarios Concurrentes**
-- **Descripción**: El sistema debe soportar hasta 5 usuarios concurrentes (para Smart Room compartido).
-- **Métrica**: Throughput con 1 usuario vs 5 usuarios
-- **Objetivo**: Degradación ≤ 30% con 5 usuarios
-- **Método de medición**: Pruebas de concurrencia
 
 ---
 

@@ -18,8 +18,9 @@
 4. [Historias de Usuario - Administrador](#4-historias-de-usuario---administrador)
 5. [Historias de Usuario - Desarrollador](#5-historias-de-usuario---desarrollador)
 6. [Historias de Usuario - Sistema](#6-historias-de-usuario---sistema)
-7. [Resumen de Priorización](#7-resumen-de-priorización)
-8. [Mapeo con Requisitos Funcionales](#8-mapeo-con-requisitos-funcionales)
+7. [Estado de Implementación en mcp-client](#7-estado-de-implementación-en-mcp-client)
+8. [Resumen de Priorización](#8-resumen-de-priorización)
+9. [Mapeo con Requisitos Funcionales](#9-mapeo-con-requisitos-funcionales)
 
 ---
 
@@ -874,7 +875,81 @@ Cada historia de usuario sigue el formato estándar:
 
 ---
 
-## 7. Resumen de Priorización
+## 7. Estado de Implementación en mcp-client
+
+### 7.1 Nota sobre Base Tecnológica
+
+Como se documenta en [00-ADR-Base-Tecnologica.md](./00-ADR-Base-Tecnologica.md#adr-001-uso-de-mcp-client-cli-como-base-del-proyecto), SRCS se construye sobre **mcp-client-cli** mediante fork y extensión. Esta tabla indica qué historias están **total o parcialmente implementadas** por componentes existentes de mcp-client.
+
+**Leyenda de Estados:**
+- ✅ **Implementado**: Funcionalidad completamente cubierta por mcp-client
+- 🔄 **Parcial**: Algunos componentes existen, pero requieren extensión para Smart Room
+- ❌ **Pendiente**: Requiere implementación completa en SRCS
+
+---
+
+### 7.2 Tabla de Estado por Historia de Usuario
+
+| ID | Título | Estado | Componentes mcp-client Utilizados | Componentes a Crear |
+|----|--------|--------|-------------------------------------|---------------------|
+| **Usuario Final** |
+| HU-001 | Control de Iluminación por Voz | 🔄 Parcial | STT (Whisper), Agente LLM, Cliente MCP | Servidor MCP Lighting, Conector Hue |
+| HU-002 | Ajuste de Temperatura | 🔄 Parcial | STT, Agente LLM, Cliente MCP | Servidor MCP Climate, Conector Nest |
+| HU-003 | Consulta de Estado de Dispositivos | 🔄 Parcial | Agente LLM, Cliente MCP, Agregación de Tools | Servidores MCP IoT, Lógica de agregación |
+| HU-004 | Creación de Escenas Personalizadas | ❌ Pendiente | Memoria (SqliteStore para guardar escenas) | Scene Manager, UI de creación |
+| HU-005 | Activación de Escenas Predefinidas | ❌ Pendiente | Agente LLM (interpretación), Cliente MCP | Scene Manager, Coordinación multi-tool |
+| HU-006 | Comandos en Lenguaje Natural | ✅ Implementado | Agente LLM (LangChain/LangGraph), NLP | Prompts específicos Smart Room |
+| HU-007 | Manejo de Comandos Ambiguos | ✅ Implementado | Agente LLM (ReAct loop), Conversación | Prompts de aclaración |
+| HU-008 | Integración con Calendario | ❌ Pendiente | N/A | Conector calendario, Lógica de escenas automáticas |
+| HU-009 | Respuestas con Retroalimentación de Voz | 🔄 Parcial | Output de texto (Rich) | TTS (Bark/Piper) |
+| HU-010 | Confirmación de Acciones Críticas | 🔄 Parcial | Sistema de confirmación de tools | Lógica específica para acciones críticas |
+| HU-011 | Historial de Acciones del Usuario | 🔄 Parcial | Checkpoints LangGraph (conversación) | Tabla action_logs específica |
+| HU-012 | Sugerencias Proactivas Basadas en Contexto | ❌ Pendiente | Memoria (SqliteStore) | Módulo de aprendizaje, Lógica de sugerencias |
+| HU-013 | Control de Entretenimiento | 🔄 Parcial | STT, Agente LLM, Cliente MCP | Servidor MCP Entertainment, Conector Sonos |
+| HU-014 | Consulta de Información General | ✅ Implementado | Agente LLM, Tools externos (si configurados) | Prompts contextualizados Smart Room |
+| HU-015 | Configuración de Preferencias de Usuario | 🔄 Parcial | Memoria (SqliteStore), Tool save_memory | UI de preferencias, Namespace específico |
+| **Administrador** |
+| HU-016 | Registro de Dispositivos IoT | ❌ Pendiente | Config (AppConfig) | Device Registry, UI/CLI de registro |
+| HU-017 | Configuración de Servidores MCP | ✅ Implementado | Config (mcp-servers en config.json) | Validación específica IoT |
+| HU-018 | Monitoreo de Dispositivos Conectados | ❌ Pendiente | N/A | Dashboard, Polling de estado |
+| HU-019 | Gestión de Usuarios del Sistema | ❌ Pendiente | N/A | Tabla users, User Manager |
+| HU-020 | Visualización de Logs del Sistema | 🔄 Parcial | Logging (Python logging) | Centralized log viewer, Filtros |
+| HU-021 | Configuración de Políticas de Seguridad | ❌ Pendiente | requires_confirmation en config | Policy Manager, Roles |
+| HU-022 | Respaldos y Restauración de BD | ❌ Pendiente | SQLite DB existente | Backup scheduler, Restore UI |
+| HU-023 | Panel de Control Web | ❌ Pendiente | N/A | FastAPI web app, Dashboard |
+| HU-024 | Alertas y Notificaciones | ❌ Pendiente | N/A | Alert Manager, Notification service |
+| HU-025 | Visualización de Métricas de Rendimiento | ❌ Pendiente | N/A | Metrics Collector, Dashboard |
+| **Desarrollador** |
+| HU-026 | Creación de Nuevo Servidor MCP | ✅ Implementado | MCP SDK, McpToolkit (discovery automático) | Templates específicos IoT |
+| HU-027 | Pruebas de Integración de Servidor MCP | 🔄 Parcial | McpToolkit (integración) | Test framework IoT, Mocks |
+| HU-028 | Documentación de API de Servidor MCP | ❌ Pendiente | MCP schema (auto-generado por tools) | Docs templates, Ejemplos |
+| HU-029 | Depuración de Interacciones MCP | 🔄 Parcial | Logging de tool calls | Debug UI, Inspector de mensajes |
+| HU-030 | Extensión del Agente LLM con Nuevos Tools | ✅ Implementado | LangChain Tools, McpToolkit | Documentación de proceso |
+| HU-031 | Publicación de Conector IoT Reutilizable | ❌ Pendiente | N/A | Packaging guide, Registry |
+| HU-032 | Versionado de Configuración de Servidores | 🔄 Parcial | Config.json | Version control integration |
+| HU-033 | Testing End-to-End del Sistema | ❌ Pendiente | N/A | E2E test framework |
+| HU-034 | Profiling de Rendimiento del Agente | 🔄 Parcial | Async operations | Profiling tools, Benchmarks |
+| HU-035 | Simulación de Dispositivos IoT para Testing | ❌ Pendiente | N/A | Mock devices, Simulators |
+| **Sistema** |
+| HU-036 | Coordinación de Múltiples Dispositivos | 🔄 Parcial | Cliente MCP (multi-server), ReAct agent | Coordinación avanzada, Transactions |
+| HU-037 | Gestión de Conexiones MCP | ✅ Implementado | McpToolkit (stdio sessions), Connection pool | Retry logic específico IoT |
+| HU-038 | Cache de Respuestas Frecuentes | 🔄 Parcial | Tool cache (24h en storage.py) | Semantic cache, LLM response cache |
+| HU-039 | Failover Automático de Componentes | ❌ Pendiente | N/A | Circuit breaker, Health checks |
+| HU-040 | Monitoreo de Salud de Componentes | ❌ Pendiente | N/A | Health check framework, Metrics |
+
+**Resumen de Estado:**
+- ✅ **Implementado**: 6 historias (15%)
+- 🔄 **Parcial**: 19 historias (47.5%)
+- ❌ **Pendiente**: 15 historias (37.5%)
+
+**Implicación para Desarrollo:**
+- ~62.5% de historias tienen algún componente base de mcp-client
+- ~37.5% requieren implementación desde cero
+- Ahorro estimado: ~90 horas de desarrollo (37.5% del total)
+
+---
+
+## 8. Resumen de Priorización
 
 ### Must Have (18 historias - 106 puntos)
 Funcionalidades esenciales para el MVP:
@@ -909,7 +984,7 @@ Funcionalidades deseables para versiones futuras:
 
 ---
 
-## 8. Mapeo con Requisitos Funcionales
+## 9. Mapeo con Requisitos Funcionales
 
 | Requisito Funcional | Historias de Usuario Relacionadas |
 |---------------------|-----------------------------------|

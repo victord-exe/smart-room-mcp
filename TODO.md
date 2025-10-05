@@ -13,7 +13,7 @@
 
 ### Fase Actual: Ingeniería de Software - Documentación
 
-**Progreso General:** 77% (10/13 documentos principales completados)
+**Progreso General:** 100% (13/13 documentos principales completados) ✅
 
 ### 🎯 **DECISIÓN ARQUITECTÓNICA IMPORTANTE**
 
@@ -97,7 +97,7 @@ El proyecto utiliza **[mcp-client-cli](https://github.com/adhikasp/mcp-client-cl
   - [x] 6. Patrones Arquitectónicos (6 patrones documentados)
   - [x] 7. Decisiones Arquitectónicas (5 ADRs)
   - [x] 8. Flujo de Datos (2 flujos detallados)
-  - [ ] 🔄 **PENDIENTE**: Actualizar para reflejar componentes de mcp-client
+  - [x] ✅ Actualizado con componentes de mcp-client (Sección 9)
 
 - [x] **docs/00-ADR-Base-Tecnologica.md** ✅ COMPLETADO
   - [x] ADR-001: Uso de mcp-client-cli como base del proyecto
@@ -114,13 +114,13 @@ El proyecto utiliza **[mcp-client-cli](https://github.com/adhikasp/mcp-client-cl
   - [x] HU-036 a HU-040: Como Sistema (5 historias)
   - [x] Priorización MoSCoW y puntos de historia
   - [x] Criterios de aceptación para cada historia
-  - [ ] 🔄 **PENDIENTE**: Agregar columna indicando estado en mcp-client
+  - [x] ✅ Sección 7: Estado de implementación en mcp-client (40 historias mapeadas)
 
 - [x] **docs/03-Casos-Uso.md** ✅ COMPLETADO
   - [x] Diagrama general de casos de uso (PlantUML)
   - [x] CU-001 a CU-015: Casos de uso detallados (15 casos)
   - [x] Formato completo: precondiciones, flujo principal, alternos, postcondiciones
-  - [ ] 🔄 **PENDIENTE**: Marcar flujos parcialmente implementados por mcp-client
+  - [x] ✅ Sección 6: Estado de implementación en mcp-client (18 casos mapeados)
 
 - [x] **docs/05-Modelo-Datos.md** ✅ COMPLETADO
   - [x] Diagrama Entidad-Relación (Mermaid)
@@ -128,7 +128,7 @@ El proyecto utiliza **[mcp-client-cli](https://github.com/adhikasp/mcp-client-cl
   - [x] JSON Schemas de configuración
   - [x] Script SQL de creación (`database/schema.sql`)
   - [x] Estrategia de migrations con Alembic
-  - [ ] 🔄 **PENDIENTE**: Documentar schema existente de mcp-client y extensiones
+  - [x] ✅ Sección 2: Schema existente de mcp-client (6 tablas documentadas)
 
 - [x] **docs/06-APIs-Interfaces.md** ✅ COMPLETADO
   - [x] API del Cliente Coordinador MCP
@@ -136,7 +136,7 @@ El proyecto utiliza **[mcp-client-cli](https://github.com/adhikasp/mcp-client-cl
   - [x] Tools de cada servidor (20+ herramientas documentadas)
   - [x] Interfaces de Conectores IoT (Philips Hue, Nest, Cameras, Sonos)
   - [x] Interfaz de Voz (Whisper STT, Bark/Piper TTS)
-  - [ ] 🔄 **PENDIENTE**: Documentar APIs existentes de mcp-client
+  - [x] ✅ Sección 2: APIs existentes de mcp-client (5 componentes documentados)
 
 - [x] **docs/07-Diagramas-Secuencia.md** ✅ COMPLETADO
   - [x] DS-001 a DS-010: 10 diagramas de secuencia (PlantUML)
@@ -154,59 +154,53 @@ El proyecto utiliza **[mcp-client-cli](https://github.com/adhikasp/mcp-client-cl
 
 ---
 
-### 📝 Documentos Pendientes
+### ✅ Documentación Completa (100%)
 
-#### Alta Prioridad (Actualizaciones Necesarias)
+#### Actualizaciones Completadas
 
-- [ ] **Actualizar Documentación Existente** 🟡 EN PROGRESO
-  - [ ] **docs/04-Arquitectura-Sistema.md**: Agregar sección sobre componentes de mcp-client
-  - [ ] **docs/05-Modelo-Datos.md**: Documentar schema existente de mcp-client y extensiones necesarias
-  - [ ] **docs/02-Historias-Usuario.md**: Agregar columna de estado indicando qué está en mcp-client
-  - [ ] **docs/03-Casos-Uso.md**: Marcar flujos parcialmente implementados
-  - [ ] **docs/06-APIs-Interfaces.md**: Documentar APIs ya existentes en mcp-client
-  - [ ] **docs/01-SRS-Especificacion-Requisitos.md**: Ampliar sección 2.1.1 sobre mcp-client
+- [x] **Actualizar Documentación Existente** ✅ COMPLETADO (6/6)
+  - [x] **docs/04-Arquitectura-Sistema.md**: Sección 9 sobre componentes de mcp-client ✅
+  - [x] **docs/05-Modelo-Datos.md**: Sección 2 con schema de mcp-client (6 tablas) ✅
+  - [x] **docs/02-Historias-Usuario.md**: Sección 7 con estado en mcp-client (40 HU) ✅
+  - [x] **docs/03-Casos-Uso.md**: Sección 6 con flujos implementados (18 CU) ✅
+  - [x] **docs/06-APIs-Interfaces.md**: Sección 2 con APIs de mcp-client (5 APIs) ✅
+  - [x] **docs/01-SRS-Especificacion-Requisitos.md**: Sección 2.1.1 ampliada ✅
 
-#### Media Prioridad (Nuevos Documentos)
+#### Nuevos Documentos Completados
 
-- [ ] **docs/09-Matriz-Trazabilidad.md** 🟡 PENDIENTE
-  - [ ] Tabla: Objetivos Anteproyecto → Requisitos Funcionales
-  - [ ] Tabla: Requisitos Funcionales → Historias de Usuario
-  - [ ] Tabla: Historias de Usuario → Casos de Uso
-  - [ ] Tabla: Casos de Uso → Casos de Prueba
-  - [ ] Tabla: Requisitos No Funcionales → Casos de Prueba
-  - [ ] Análisis de cobertura (todos los objetivos cubiertos)
-  - [ ] Indicar qué está cubierto por mcp-client
+- [x] **docs/09-Matriz-Trazabilidad.md** ✅ COMPLETADO
+  - [x] Tabla: Objetivos Anteproyecto → Requisitos Funcionales (100% cobertura)
+  - [x] Tabla: Requisitos Funcionales → Historias de Usuario (33 RF mapeados)
+  - [x] Tabla: Historias de Usuario → Casos de Uso (40 HU mapeadas)
+  - [x] Tabla: Casos de Uso → Casos de Prueba (15 CU mapeados)
+  - [x] Tabla: Requisitos No Funcionales → Casos de Prueba (30 RNF mapeados)
+  - [x] Análisis de cobertura completo (sin brechas identificadas)
+  - [x] Estado de implementación en mcp-client documentado
 
-- [ ] **docs/11-Planificacion-Detallada.md** 🟡 PENDIENTE
-  - [ ] Descomposición de tareas ajustada para uso de mcp-client como base
-  - [ ] Sprint 0 (NUEVO): Fork y setup de mcp-client (1 semana)
-  - [ ] Sprint 1-2: Servidores MCP IoT y Conectores
-  - [ ] Sprint 3-4: Gestión de Escenas y TTS
-  - [ ] Sprint 5: Administración y Aprendizaje
-  - [ ] Sprint 6: Pruebas, Validación y Documentación
-  - [ ] Estimación ACTUALIZADA: ~150 horas (vs ~240h original)
-  - [ ] Asignación de tareas a integrantes
-  - [ ] Dependencias entre tareas
-  - [ ] Hitos (milestones)
+- [x] **docs/11-Planificacion-Detallada.md** ✅ COMPLETADO
+  - [x] Descomposición de tareas ajustada para mcp-client
+  - [x] Sprint 0: Fork y setup (1 semana, 6h)
+  - [x] Sprint 1-2: Servidores MCP IoT y Conectores (4 semanas, 48h)
+  - [x] Sprint 3-4: Gestión de Escenas y TTS (4 semanas, 40h)
+  - [x] Sprint 5: Administración y Aprendizaje (2 semanas, 28h)
+  - [x] Sprint 6: Pruebas, Validación y Documentación (4 semanas, 28h)
+  - [x] Estimación ACTUALIZADA: 150 horas (ahorro de 90h)
+  - [x] Asignación de tareas a Alejandro y Victor
+  - [x] Diagrama de dependencias y ruta crítica
+  - [x] 6 hitos principales (M0 a M6)
+  - [x] Gestión de riesgos (8 riesgos identificados)
 
-- [ ] **docs/12-Manual-Usuario.md** 🟡 PENDIENTE
-  - [ ] 1. Introducción al SRCS
-  - [ ] 2. Instalación desde fork de mcp-client
-    - [ ] Clonar repositorio
-    - [ ] Configurar Python environment
-    - [ ] Instalar dependencias
-    - [ ] Configurar Ollama y descargar Llama
-  - [ ] 3. Configuración Inicial
-    - [ ] Archivo ~/.llm/config.json
-    - [ ] Configuración de servidores MCP IoT
-    - [ ] Registro de dispositivos
-  - [ ] 4. Uso Básico
-    - [ ] Comandos de voz
-    - [ ] Comandos de texto
-    - [ ] Ejemplos de interacciones
-  - [ ] 5. Gestión de Escenas
-  - [ ] 6. Configuración Avanzada
-  - [ ] 7. Solución de Problemas
+- [x] **docs/12-Manual-Usuario.md** ✅ COMPLETADO
+  - [x] 1. Introducción al SRCS (características y funcionamiento)
+  - [x] 2. Requisitos del Sistema (hardware, software, IoT)
+  - [x] 3. Instalación (Linux, macOS, Windows WSL2)
+  - [x] 4. Configuración Inicial (config.json, credenciales IoT, dispositivos)
+  - [x] 5. Uso Básico (comandos texto y voz, ejemplos detallados)
+  - [x] 6. Gestión de Escenas (crear, ejecutar, triggers, condiciones)
+  - [x] 7. Configuración Avanzada (LLM, prompts, memoria, multi-ubicación)
+  - [x] 8. Solución de Problemas (7 problemas comunes resueltos)
+  - [x] 9. FAQ (15+ preguntas frecuentes)
+  - [x] Apéndices (comandos, escenas ejemplo, recursos)
 
 #### Baja Prioridad (Opcional - Especificaciones Técnicas Detalladas)
 
@@ -441,65 +435,84 @@ El proyecto utiliza **[mcp-client-cli](https://github.com/adhikasp/mcp-client-cl
 
 ## 🎯 Próximos Pasos Inmediatos
 
-### Para Continuar la Documentación:
+### ✅ Fase de Documentación: COMPLETADA
 
-1. **Alta Prioridad (hacer primero):**
-   - [ ] Completar `docs/02-Historias-Usuario.md` (35-40 historias)
-   - [ ] Completar `docs/03-Casos-Uso.md` (15-20 casos detallados)
-   - [ ] Completar `docs/05-Modelo-Datos.md` (esquema DB + scripts SQL)
+**Logros:**
+- ✅ 13/13 documentos principales completados (100%)
+- ✅ Actualizaciones para reflejar uso de mcp-client (6 documentos)
+- ✅ Nuevos documentos creados (Matriz Trazabilidad, Planificación, Manual Usuario)
+- ✅ Trazabilidad completa: Objetivos → RF → HU → CU → Casos de Prueba
+- ✅ Plan de desarrollo detallado (7 sprints, 150 horas)
 
-2. **Media Prioridad (hacer después):**
-   - [ ] Completar `docs/06-APIs-Interfaces.md` (especificación OpenAPI)
-   - [ ] Completar `docs/07-Diagramas-Secuencia.md` (10 diagramas)
-   - [ ] Completar `docs/08-Plan-Pruebas.md` (estrategia + casos de prueba)
+### 📋 Siguiente Fase: IMPLEMENTACIÓN
 
-3. **Baja Prioridad (hacer al final):**
-   - [ ] Completar `docs/09-Matriz-Trazabilidad.md`
-   - [ ] Completar `docs/11-Planificacion-Detallada.md`
-   - [ ] Completar `docs/12-Manual-Usuario.md`
+**Sprint 0 - Fork y Setup de mcp-client (Semana 3, Enero 2025)**
 
-### Para Iniciar Implementación:
+Tareas inmediatas:
+1. **Fork de mcp-client-cli** (0.5h)
+   - Fork del repositorio https://github.com/adhikasp/mcp-client-cli
+   - Clonar localmente
+   - Renombrar a `smart-room-mcp`
 
-1. Configurar entorno de desarrollo
-2. Implementar estructura base de módulos
-3. Crear base de datos con schema
-4. Implementar LLM Agent básico
-5. Implementar primer servidor MCP (Lighting)
-6. Crear tests unitarios
+2. **Configuración Inicial** (1h)
+   - Actualizar `pyproject.toml` (nombre, autores, descripción)
+   - Actualizar `README.md` con contexto SRCS
+   - Crear branch `srcs-development`
+
+3. **Análisis de Componentes** (2h)
+   - Estudiar `cli.py`, `tool.py`, `config.py`, `memory.py`
+   - Documentar en memoria qué se reutiliza y qué se crea
+   - Identificar puntos de extensión
+
+4. **Setup del Entorno** (2.5h)
+   - Crear virtual environment Python 3.12+
+   - Instalar dependencias de mcp-client
+   - Configurar Ollama y descargar Llama 3.1
+   - Probar CLI básico
+   - Configurar pre-commit hooks (black, flake8, mypy)
+
+**Criterio de Aceptación Sprint 0:**
+- [ ] Fork funcional en GitHub
+- [ ] CLI básico de mcp-client responde a comandos
+- [ ] Llama 3.1 configurado en Ollama
+- [ ] Documentación de componentes heredados completada
+
+**Siguiente:** Sprint 1 - Servidores MCP IoT Parte 1 (Semanas 4-5)
 
 ---
 
 ## 📈 Métricas de Progreso
 
 **Documentación:**
-- **Completados: 10/13 (77%)** ✅
-  - Base completa: 01-SRS, 02-HU, 03-CU, 04-Arq, 05-Datos, 06-APIs, 07-Secuencia, 08-Pruebas, 10-Glosario
-  - ADR nuevo: 00-ADR-Base-Tecnologica ✅
-- **Actualizaciones Pendientes:** 6 documentos (agregar secciones sobre mcp-client)
-- **Nuevos Documentos Pendientes:** 3 (09-Matriz, 11-Plan, 12-Manual)
-- **Opcionales:** 6 especificaciones técnicas detalladas
+- **Completados: 13/13 (100%)** ✅ **FASE COMPLETADA**
+  - Documentos base: 01-SRS, 02-HU, 03-CU, 04-Arq, 05-Datos, 06-APIs, 07-Secuencia, 08-Pruebas, 10-Glosario
+  - ADR de base tecnológica: 00-ADR-Base-Tecnologica ✅
+  - Documentos nuevos: 09-Matriz-Trazabilidad, 11-Planificacion-Detallada, 12-Manual-Usuario ✅
+  - Actualizaciones: 6 documentos actualizados con estado de mcp-client ✅
+- **Tiempo Invertido:** ~12 horas
+- **Calidad:** 100% de trazabilidad desde objetivos hasta casos de prueba
 
-**Implementación (Ajustado con mcp-client):**
-- **Fase 0: 0%** - Fork y setup de mcp-client (4-6h)
-- **Fase 1: 0%** - Extensión de BD (8h)
-- **Fase 2: 0%** - Servidores MCP IoT (40h) - CRÍTICO
-- **Fase 3: 0%** - Conectores IoT (30h) - CRÍTICO
-- **Fase 4: 0%** - Gestión de Escenas (15h)
-- **Fase 5: 0%** - Features adicionales (25h)
-- **Fase 6: 0%** - Testing e integración (28h)
+**Implementación (Pendiente - Ajustado con mcp-client):**
+- **Sprint 0: 0%** - Fork y setup de mcp-client (6h)
+- **Sprint 1: 0%** - Servidores MCP Lighting + Climate (24h) - CRÍTICO
+- **Sprint 2: 0%** - Servidores MCP Security + Entertainment + Conectores (24h) - CRÍTICO
+- **Sprint 3: 0%** - Scene Manager + TTS Parte 1 (20h)
+- **Sprint 4: 0%** - Escenas Avanzadas + TTS Parte 2 (20h)
+- **Sprint 5: 0%** - Administración + Aprendizaje (28h)
+- **Sprint 6: 0%** - Testing + Validación + Documentación Final (28h)
 
-**Estimación de Tiempo ACTUALIZADA (con mcp-client como base):**
-- **Documentación:** ~8-12 horas (solo actualizaciones y nuevos docs)
-- **Implementación:** ~150 horas (vs ~240h desde cero) ⚡ **AHORRO: 90h**
-  - Fase 0: 6h
-  - Fase 1: 8h
-  - Fase 2: 40h
-  - Fase 3: 30h
-  - Fase 4: 15h
-  - Fase 5: 25h
-  - Fase 6: 28h
-- **Testing:** ~30 horas (reducido por código ya probado de mcp-client)
-- **TOTAL: ~188-192 horas** (dentro de cronograma de 6 meses)
+**Estimación de Tiempo FINAL:**
+- **Documentación:** ✅ 12 horas (COMPLETADO)
+- **Implementación:** ⏳ 150 horas (PENDIENTE)
+  - Sprint 0: 6h
+  - Sprint 1: 24h
+  - Sprint 2: 24h
+  - Sprint 3: 20h
+  - Sprint 4: 20h
+  - Sprint 5: 28h
+  - Sprint 6: 28h
+- **TOTAL: ~162 horas** (dentro de cronograma de 6 meses)
+- **AHORRO por mcp-client:** ~90 horas (37.5% del tiempo original)
 
 **Componentes Reutilizados de mcp-client (~40% del sistema):**
 - ✅ Cliente MCP (tool.py)

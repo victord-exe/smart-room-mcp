@@ -17,8 +17,9 @@
 3. [Casos de Uso - Interacción con Usuario](#3-casos-de-uso---interacción-con-usuario)
 4. [Casos de Uso - Administración](#4-casos-de-uso---administración)
 5. [Casos de Uso - Sistema](#5-casos-de-uso---sistema)
-6. [Resumen de Casos de Uso](#6-resumen-de-casos-de-uso)
-7. [Mapeo con Historias de Usuario](#7-mapeo-con-historias-de-usuario)
+6. [Estado de Implementación en mcp-client](#6-estado-de-implementación-en-mcp-client)
+7. [Resumen de Casos de Uso](#7-resumen-de-casos-de-uso)
+8. [Mapeo con Historias de Usuario](#8-mapeo-con-historias-de-usuario)
 
 ---
 
@@ -1465,7 +1466,58 @@ CU017 --> Device
 
 ---
 
-## 6. Resumen de Casos de Uso
+## 6. Estado de Implementación en mcp-client
+
+### 6.1 Nota sobre Base Tecnológica
+
+Como se documenta en [00-ADR-Base-Tecnologica.md](./00-ADR-Base-Tecnologica.md#adr-001-uso-de-mcp-client-cli-como-base-del-proyecto), SRCS se construye sobre **mcp-client-cli**. Esta tabla indica qué **pasos de flujo** en cada caso de uso están parcial o totalmente implementados por componentes existentes.
+
+**Leyenda de Estados:**
+- ✅ **Implementado**: Flujo completamente cubierto por mcp-client
+- 🔄 **Parcial**: Algunos pasos implementados, otros requieren extensión
+- ❌ **Pendiente**: Requiere implementación completa
+
+---
+
+### 6.2 Tabla de Estado por Caso de Uso
+
+| ID | Título | Estado | Flujo Principal Implementado | Componentes a Crear |
+|----|--------|--------|------------------------------|---------------------|
+| **Interacción con Usuario** |
+| CU-001 | Controlar Iluminación por Voz | 🔄 Parcial | Pasos 1-3, 6-7 (STT, LLM, respuesta) | Paso 4-5 (Servidor MCP Lighting, Conector Hue) |
+| CU-002 | Ajustar Temperatura del Ambiente | 🔄 Parcial | Pasos 1-3, 6-7 (STT, LLM, respuesta) | Paso 4-5 (Servidor MCP Climate, Conector Nest) |
+| CU-003 | Activar Escena Predefinida | 🔄 Parcial | Pasos 1-2 (STT, interpretación LLM) | Pasos 3-6 (Scene Manager, coordinación multi-tool) |
+| CU-004 | Consultar Estado de Dispositivos | 🔄 Parcial | Pasos 1-2, 5-6 (STT, LLM, respuesta) | Pasos 3-4 (Query a servidores MCP IoT) |
+| CU-005 | Crear Escena Personalizada | 🔄 Parcial | Pasos 1-2 (STT, LLM), Paso 6 (guardar en DB) | Pasos 3-5 (UI de creación, validación) |
+| CU-006 | Manejar Comando Ambiguo | ✅ Implementado | Pasos 1-7 (ReAct loop, conversación) | Prompts específicos Smart Room |
+| CU-007 | Ejecutar Acción Compuesta | 🔄 Parcial | Pasos 1-2 (STT, parsing LLM), Paso 5 (respuesta) | Pasos 3-4 (Coordinación transaccional IoT) |
+| **Administración** |
+| CU-008 | Configurar Nuevo Dispositivo IoT | 🔄 Parcial | Paso 5 (guardar config en DB) | Pasos 1-4 (Device Registry UI, validación) |
+| CU-009 | Visualizar Logs del Sistema | 🔄 Parcial | Paso 2 (logging Python) | Pasos 1, 3-6 (UI de logs, filtros, exportación) |
+| CU-010 | Configurar Servidor MCP | ✅ Implementado | Pasos 1-5 (Config.json, validación, reinicio) | Validación específica IoT |
+| CU-011 | Monitorear Métricas de Rendimiento | ❌ Pendiente | Ninguno | Todos (Metrics Collector, Dashboard) |
+| CU-012 | Gestionar Usuarios | ❌ Pendiente | Ninguno | Todos (User Manager, CRUD) |
+| CU-013 | Realizar Respaldo de Configuración | 🔄 Parcial | Paso 1 (SQLite DB existe) | Pasos 2-6 (Backup scheduler, UI, validación) |
+| **Sistema** |
+| CU-014 | Aprender Preferencias de Usuario | 🔄 Parcial | Pasos 1-2 (tracking acciones), Paso 5 (save_memory tool) | Pasos 3-4 (Algoritmo de aprendizaje, análisis de patrones) |
+| CU-015 | Recuperar de Error de Dispositivo | 🔄 Parcial | Paso 1 (detección vía tool result) | Pasos 2-6 (Retry logic, fallback, notificación) |
+| CU-016 | Autenticar Usuario | ❌ Pendiente | Ninguno | Todos (Auth sistema, Voz recognition) |
+| CU-017 | Sincronizar Estado de Dispositivos | 🔄 Parcial | Paso 2 (query via MCP tools) | Pasos 1, 3-4 (Polling automático, cache update) |
+| CU-018 | Inicializar Componentes del Sistema | ✅ Implementado | Pasos 1-5 (Inicialización MCP, LangGraph, DB) | Inicialización servidores MCP IoT |
+
+**Resumen de Estado:**
+- ✅ **Implementado**: 3 casos (16.7%)
+- 🔄 **Parcial**: 12 casos (66.7%)
+- ❌ **Pendiente**: 3 casos (16.7%)
+
+**Análisis de Flujos:**
+- **~83% de casos** tienen al menos algunos pasos implementados en mcp-client
+- **Los pasos más reutilizados**: STT (Whisper), Agente LLM (ReAct), Cliente MCP, Memoria (SqliteStore)
+- **Los pasos que más requieren desarrollo**: Servidores MCP IoT, Conectores IoT, Scene Manager, UIs administrativas
+
+---
+
+## 7. Resumen de Casos de Uso
 
 ### Casos de Uso por Categoría
 
@@ -1507,7 +1559,7 @@ CU017 --> Device
 
 ---
 
-## 7. Mapeo con Historias de Usuario
+## 8. Mapeo con Historias de Usuario
 
 | Caso de Uso | Historias de Usuario Relacionadas |
 |-------------|-----------------------------------|

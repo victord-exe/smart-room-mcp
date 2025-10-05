@@ -13,12 +13,13 @@
 ## Tabla de Contenido
 
 1. [Introducción](#1-introducción)
-2. [Diagrama Entidad-Relación](#2-diagrama-entidad-relación)
-3. [Esquema de Base de Datos SQLite](#3-esquema-de-base-de-datos-sqlite)
-4. [JSON Schemas de Configuración](#4-json-schemas-de-configuración)
-5. [Índices y Optimizaciones](#5-índices-y-optimizaciones)
-6. [Estrategia de Migrations](#6-estrategia-de-migrations)
-7. [Políticas de Retención de Datos](#7-políticas-de-retención-de-datos)
+2. [Schema Existente de mcp-client (Base)](#2-schema-existente-de-mcp-client-base)
+3. [Diagrama Entidad-Relación (Extensiones SRCS)](#3-diagrama-entidad-relación-extensiones-srcs)
+4. [Esquema de Base de Datos SQLite (Extensiones SRCS)](#4-esquema-de-base-de-datos-sqlite-extensiones-srcs)
+5. [JSON Schemas de Configuración](#5-json-schemas-de-configuración)
+6. [Índices y Optimizaciones](#6-índices-y-optimizaciones)
+7. [Estrategia de Migrations](#7-estrategia-de-migrations)
+8. [Políticas de Retención de Datos](#8-políticas-de-retención-de-datos)
 
 ---
 
@@ -52,9 +53,250 @@ Este documento especifica el **modelo de datos** del Smart Room Control System (
 - **Foreign Keys**: `fk_<table>_<column>` (ej: `fk_scenes_user_id`)
 - **Timestamps**: UTC timezone, formato ISO 8601
 
+### 1.4 Nota sobre Base Tecnológica
+
+Como se documenta en [00-ADR-Base-Tecnologica.md](./00-ADR-Base-Tecnologica.md#adr-001-uso-de-mcp-client-cli-como-base-del-proyecto), el Smart Room Control System se construye sobre **mcp-client-cli** mediante fork y extensión.
+
+**Implicaciones para el Modelo de Datos:**
+- ✅ **Reutilizamos** el schema de base de datos existente de mcp-client para memoria y conversaciones
+- ➕ **Extendemos** el schema agregando nuevas tablas específicas para Smart Rooms
+- 🔧 **Usamos Alembic** para gestionar migrations que mantienen compatibilidad con el schema base
+
+La siguiente sección documenta el schema existente que heredamos de mcp-client.
+
 ---
 
-## 2. Diagrama Entidad-Relación
+## 2. Schema Existente de mcp-client (Base)
+
+### 2.1 Introducción al Schema Base
+
+El proyecto **mcp-client-cli** utiliza **SQLite** para almacenar:
+1. **Memoria persistente del agente** (preferencias de usuario, contexto)
+2. **Embeddings vectoriales** para búsqueda semántica de memoria
+3. **Tracking de conversaciones** (thread IDs)
+4. **Checkpoints de LangGraph** (estado del agente entre ejecuciones)
+
+**Ubicación de base de datos mcp-client:**
+- `~/.llm/conversations.db` - Checkpoints de LangGraph
+- `~/.llm/memories.db` - Memoria y vectores (implementado por SqliteStore)
+
+**Ubicación en SRCS (extendida):**
+- `database/smart_room.db` - Base de datos unificada con schema base + extensiones
+
+---
+
+### 2.2 Tabla Base: `items` (Memoria/Preferencias)
+
+**Descripción**: Sistema de almacenamiento key-value con namespaces implementado por `SqliteStore` en `memory.py`.
+
+**Definición SQL**:
+```sql
+CREATE TABLE IF NOT EXISTS items (
+    namespace TEXT,
+    key TEXT,
+    value TEXT,
+    created_at TEXT,
+    updated_at TEXT,
+    PRIMARY KEY (namespace, key)
+);
+```
+
+**Columnas**:
+
+| Columna | Tipo | Constraints | Descripción |
+|---------|------|-------------|-------------|
+| namespace | TEXT | PRIMARY KEY (part 1) | Namespace jerárquico separado por "/" (ej: "memories/user123") |
+| key | TEXT | PRIMARY KEY (part 2) | Clave única dentro del namespace |
+| value | TEXT | NOT NULL | Valor JSON serializado |
+| created_at | TEXT | NOT NULL | Fecha de creación (ISO 8601) |
+| updated_at | TEXT | NOT NULL | Fecha de última actualización (ISO 8601) |
+
+**Uso en mcp-client**:
+- Namespace `("memories", user_id)`: Almacena memorias de usuarios guardadas por el tool `save_memory`
+- Otros namespaces: Extensible para almacenar cualquier dato key-value
+
+**Ejemplo de Datos**:
+```sql
+INSERT INTO items (namespace, key, value, created_at, updated_at)
+VALUES (
+  'memories/myself',
+  'memory_a3f2b1c4',
+  '{"data": "El usuario prefiere temperatura de 22°C en las tardes"}',
+  '2025-01-15T10:30:00Z',
+  '2025-01-15T10:30:00Z'
+);
+```
+
+**Cómo SRCS extiende esta tabla**:
+- ✅ **Reutilizamos** para memoria del agente LLM
+- ➕ **Agregamos** namespace `("smart_room_prefs", user_id)` para preferencias específicas de Smart Room
+- 🔧 **Compatibilidad**: Sin cambios en estructura, solo nuevos namespaces
+
+---
+
+### 2.3 Tabla Base: `vectors` (Embeddings Semánticos)
+
+**Descripción**: Almacena embeddings vectoriales para búsqueda semántica sobre los `items`.
+
+**Definición SQL**:
+```sql
+CREATE TABLE IF NOT EXISTS vectors (
+    namespace TEXT,
+    key TEXT,
+    path TEXT,
+    vector BLOB,
+    PRIMARY KEY (namespace, key, path),
+    FOREIGN KEY (namespace, key) REFERENCES items (namespace, key)
+        ON DELETE CASCADE
+);
+```
+
+**Columnas**:
+
+| Columna | Tipo | Constraints | Descripción |
+|---------|------|-------------|-------------|
+| namespace | TEXT | PRIMARY KEY (part 1) | Mismo namespace del item relacionado |
+| key | TEXT | PRIMARY KEY (part 2) | Misma key del item relacionado |
+| path | TEXT | PRIMARY KEY (part 3) | Path del campo embeddido (ej: "$" o "data.0") |
+| vector | BLOB | NOT NULL | Vector embedding serializado como JSON (array de floats) |
+
+**Uso en mcp-client**:
+- Embeddings generados opcionalmente para campos de texto en `items`
+- Permite búsqueda semántica con `store.asearch(namespace, query="...")`
+
+**Ejemplo de Datos**:
+```sql
+INSERT INTO vectors (namespace, key, path, vector)
+VALUES (
+  'memories/myself',
+  'memory_a3f2b1c4',
+  '$',
+  '[0.123, -0.456, 0.789, ...]'  -- Array de ~1536 floats para embeddings
+);
+```
+
+**Cómo SRCS extiende esta tabla**:
+- ✅ **Reutilizamos** sin cambios
+- 🔍 **Habilitamos** embeddings para preferencias de Smart Room para búsqueda semántica
+
+---
+
+### 2.4 Tabla Base: `last_conversation` (Tracking de Threads)
+
+**Descripción**: Mantiene registro del último thread de conversación activo, implementado en `storage.py`.
+
+**Definición SQL**:
+```sql
+CREATE TABLE IF NOT EXISTS last_conversation (
+    id INTEGER PRIMARY KEY,
+    thread_id TEXT NOT NULL
+);
+```
+
+**Columnas**:
+
+| Columna | Tipo | Constraints | Descripción |
+|---------|------|-------------|-------------|
+| id | INTEGER | PRIMARY KEY | Siempre 1 (solo una fila) |
+| thread_id | TEXT | NOT NULL | ID del thread activo de LangGraph |
+
+**Uso en mcp-client**:
+- Permite comandos como `llm c "continuar conversación"` que recuperan el último thread
+- Un solo thread activo a la vez
+
+**Ejemplo de Datos**:
+```sql
+INSERT OR REPLACE INTO last_conversation (id, thread_id)
+VALUES (1, '550e8400-e29b-41d4-a716-446655440000');
+```
+
+**Cómo SRCS extiende esta tabla**:
+- ✅ **Reutilizamos** para tracking de conversación CLI
+- ➕ **Agregamos** tabla `conversation_sessions` (nueva) para soporte multi-usuario/multi-thread
+
+---
+
+### 2.5 Tablas de LangGraph Checkpoint
+
+**Descripción**: LangGraph's `AsyncSqliteSaver` crea automáticamente tablas para gestionar checkpoints del agente.
+
+**Tablas creadas por AsyncSqliteSaver**:
+- `checkpoints` - Estado completo del grafo en cada paso
+- `checkpoint_blobs` - Datos binarios grandes asociados a checkpoints
+- `checkpoint_writes` - Escrituras pendientes al grafo
+
+**Definición SQL** (Simplificada - LangGraph gestiona internamente):
+```sql
+-- Tabla principal de checkpoints
+CREATE TABLE IF NOT EXISTS checkpoints (
+    thread_id TEXT NOT NULL,
+    checkpoint_ns TEXT NOT NULL DEFAULT '',
+    checkpoint_id TEXT NOT NULL,
+    parent_checkpoint_id TEXT,
+    type TEXT,
+    checkpoint BLOB,
+    metadata BLOB,
+    PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)
+);
+
+-- Tabla para blobs grandes
+CREATE TABLE IF NOT EXISTS checkpoint_blobs (
+    thread_id TEXT NOT NULL,
+    checkpoint_ns TEXT NOT NULL DEFAULT '',
+    channel TEXT NOT NULL,
+    version TEXT NOT NULL,
+    type TEXT NOT NULL,
+    blob BLOB,
+    PRIMARY KEY (thread_id, checkpoint_ns, channel, version)
+);
+
+-- Tabla para escrituras
+CREATE TABLE IF NOT EXISTS checkpoint_writes (
+    thread_id TEXT NOT NULL,
+    checkpoint_ns TEXT NOT NULL DEFAULT '',
+    checkpoint_id TEXT NOT NULL,
+    task_id TEXT NOT NULL,
+    idx INTEGER NOT NULL,
+    channel TEXT NOT NULL,
+    type TEXT,
+    blob BLOB,
+    PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)
+);
+```
+
+**Uso en mcp-client**:
+- Persistencia del estado del agente entre ejecuciones
+- Permite resumir conversaciones previas
+- Historial completo de mensajes y estados intermedios
+
+**Ubicación**:
+- mcp-client: `~/.llm/conversations.db`
+- SRCS: `database/smart_room.db` (mismas tablas)
+
+**Cómo SRCS utiliza estas tablas**:
+- ✅ **Reutilizamos** completamente sin modificación
+- 🔧 **Configuramos** AsyncSqliteSaver para usar `database/smart_room.db`
+
+---
+
+### 2.6 Resumen del Schema Base
+
+| Tabla | Propósito | Modificación en SRCS |
+|-------|-----------|---------------------|
+| `items` | Memoria key-value con namespaces | ✅ Reutilizar + nuevos namespaces |
+| `vectors` | Embeddings para búsqueda semántica | ✅ Reutilizar sin cambios |
+| `last_conversation` | Thread activo actual | ✅ Reutilizar + tabla adicional para multi-user |
+| `checkpoints` | Estado de LangGraph | ✅ Reutilizar sin cambios |
+| `checkpoint_blobs` | Blobs de checkpoints | ✅ Reutilizar sin cambios |
+| `checkpoint_writes` | Escrituras pendientes | ✅ Reutilizar sin cambios |
+
+**Total de tablas base de mcp-client:** 6 tablas
+
+---
+
+## 3. Diagrama Entidad-Relación (Extensiones SRCS)
+
+**Nota**: Este diagrama muestra únicamente las **tablas nuevas** que SRCS agrega al schema base de mcp-client. Las tablas base (`items`, `vectors`, `last_conversation`, `checkpoints`, etc.) están documentadas en la sección anterior y no se muestran aquí para mantener claridad.
 
 ```mermaid
 erDiagram
@@ -145,9 +387,15 @@ erDiagram
 
 ---
 
-## 3. Esquema de Base de Datos SQLite
+## 4. Esquema de Base de Datos SQLite (Extensiones SRCS)
 
-### 3.1 Tabla: `users`
+**Nota**: Esta sección documenta las **8 tablas nuevas** que SRCS agrega. Las 6 tablas base de mcp-client (`items`, `vectors`, `last_conversation`, `checkpoints`, `checkpoint_blobs`, `checkpoint_writes`) se documentaron en la Sección 2.
+
+**Total de tablas en SRCS:** 6 (base) + 8 (extensiones) = **14 tablas**
+
+---
+
+### 4.1 Tabla: `users`
 
 **Descripción**: Almacena información de usuarios del sistema.
 
@@ -176,7 +424,7 @@ VALUES ('Victor Rodríguez', 'victor_voice_fp_abc123');
 
 ---
 
-### 3.2 Tabla: `devices`
+### 4.2 Tabla: `devices`
 
 **Descripción**: Registro de dispositivos IoT conectados al sistema.
 
@@ -234,7 +482,7 @@ VALUES (
 
 ---
 
-### 3.3 Tabla: `mcp_servers`
+### 4.3 Tabla: `mcp_servers`
 
 **Descripción**: Configuración de servidores MCP activos en el sistema.
 
@@ -288,7 +536,7 @@ VALUES (
 
 ---
 
-### 3.4 Tabla: `scenes`
+### 4.4 Tabla: `scenes`
 
 **Descripción**: Escenas predefinidas y personalizadas de configuración de dispositivos.
 
@@ -344,7 +592,7 @@ VALUES (
 
 ---
 
-### 3.5 Tabla: `conversation_history`
+### 4.5 Tabla: `conversation_history`
 
 **Descripción**: Historial de conversaciones entre usuarios y el sistema.
 
@@ -377,7 +625,7 @@ VALUES
 
 ---
 
-### 3.6 Tabla: `user_preferences`
+### 4.6 Tabla: `user_preferences`
 
 **Descripción**: Preferencias aprendidas del comportamiento de usuarios.
 
@@ -424,7 +672,7 @@ VALUES (
 
 ---
 
-### 3.7 Tabla: `action_logs`
+### 4.7 Tabla: `action_logs`
 
 **Descripción**: Registro de auditoría de todas las acciones ejecutadas en el sistema.
 
@@ -477,7 +725,7 @@ VALUES (
 
 ---
 
-### 3.8 Tabla: `system_metrics`
+### 4.8 Tabla: `system_metrics`
 
 **Descripción**: Métricas de rendimiento y salud del sistema.
 
@@ -521,9 +769,9 @@ VALUES (
 
 ---
 
-## 4. JSON Schemas de Configuración
+## 5. JSON Schemas de Configuración
 
-### 4.1 Schema: `config/config.json`
+### 5.1 Schema: `config/config.json`
 
 **Descripción**: Configuración principal del sistema.
 
@@ -701,7 +949,7 @@ VALUES (
 
 ---
 
-### 4.2 Schema: `config/mcp-servers-config.json`
+### 5.2 Schema: `config/mcp-servers-config.json`
 
 **Descripción**: Configuración de servidores MCP.
 
@@ -797,7 +1045,7 @@ VALUES (
 
 ---
 
-### 4.3 Schema: `config/devices-config.json`
+### 5.3 Schema: `config/devices-config.json`
 
 **Descripción**: Configuración inicial de dispositivos IoT (opcional, también se pueden registrar vía CLI).
 
@@ -891,9 +1139,9 @@ VALUES (
 
 ---
 
-## 5. Índices y Optimizaciones
+## 6. Índices y Optimizaciones
 
-### 5.1 Índices Principales
+### 6.1 Índices Principales
 
 **Propósito**: Optimizar consultas frecuentes del sistema.
 
@@ -934,7 +1182,7 @@ CREATE INDEX idx_metrics_timestamp ON system_metrics(timestamp);
 CREATE INDEX idx_metrics_name_timestamp ON system_metrics(metric_name, timestamp);
 ```
 
-### 5.2 Triggers para Actualización Automática de `updated_at`
+### 6.2 Triggers para Actualización Automática de `updated_at`
 
 ```sql
 -- Trigger para tabla users
@@ -972,9 +1220,23 @@ END;
 
 ---
 
-## 6. Estrategia de Migrations
+## 7. Estrategia de Migrations
 
-### 6.1 Alembic Configuration
+### 7.1 Compatibilidad con Schema Base de mcp-client
+
+**Principio Clave**: Las migrations de SRCS deben **coexistir** con el schema base de mcp-client sin conflictos.
+
+**Estrategia**:
+1. ✅ **No modificar** tablas base (`items`, `vectors`, `last_conversation`, `checkpoints`, etc.)
+2. ➕ **Solo agregar** nuevas tablas con nombres que no colisionen
+3. 📝 **Usar namespaces** en tabla `items` para datos de SRCS (ej: `smart_room_prefs/user_id`)
+4. 🔧 **Configurar** AsyncSqliteSaver y SqliteStore para apuntar a `database/smart_room.db`
+
+**Resultado**: El fork de mcp-client funciona con schema extendido sin romper funcionalidad base.
+
+---
+
+### 7.2 Alembic Configuration
 
 **Descripción**: Uso de Alembic para gestionar cambios de esquema de forma versionada.
 
@@ -997,7 +1259,7 @@ alembic downgrade -1
 alembic history
 ```
 
-### 6.2 Naming Convention
+### 7.3 Naming Convention
 
 **Formato de Archivos de Migration**:
 - `<timestamp>_<descripcion>.py`
@@ -1012,9 +1274,9 @@ alembic history
 
 ---
 
-## 7. Políticas de Retención de Datos
+## 8. Políticas de Retención de Datos
 
-### 7.1 Retención de Logs
+### 8.1 Retención de Logs
 
 **Tabla**: `conversation_history`, `action_logs`
 
@@ -1032,7 +1294,7 @@ DELETE FROM action_logs
 WHERE timestamp < datetime('now', '-30 days');
 ```
 
-### 7.2 Retención de Métricas
+### 8.2 Retención de Métricas
 
 **Tabla**: `system_metrics`
 
@@ -1058,7 +1320,7 @@ DELETE FROM system_metrics
 WHERE timestamp < datetime('now', '-7 days');
 ```
 
-### 7.3 Retención de Respaldos
+### 8.3 Retención de Respaldos
 
 **Política**:
 - Respaldos diarios automáticos

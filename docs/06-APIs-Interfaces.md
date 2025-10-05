@@ -13,11 +13,12 @@
 ## Tabla de Contenido
 
 1. [Introducción](#1-introducción)
-2. [API REST del Coordinador (Opcional)](#2-api-rest-del-coordinador-opcional)
-3. [Herramientas MCP - Especificación Detallada](#3-herramientas-mcp---especificación-detallada)
-4. [Interfaces de Conectores IoT](#4-interfaces-de-conectores-iot)
-5. [Interfaz de Voz](#5-interfaz-de-voz)
-6. [Especificación OpenAPI](#6-especificación-openapi)
+2. [APIs Existentes de mcp-client (Base)](#2-apis-existentes-de-mcp-client-base)
+3. [API REST del Coordinador (Opcional)](#3-api-rest-del-coordinador-opcional)
+4. [Herramientas MCP - Especificación Detallada](#4-herramientas-mcp---especificación-detallada)
+5. [Interfaces de Conectores IoT](#5-interfaces-de-conectores-iot)
+6. [Interfaz de Voz](#6-interfaz-de-voz)
+7. [Especificación OpenAPI](#7-especificación-openapi)
 
 ---
 
@@ -54,9 +55,372 @@ Este documento especifica todas las **interfaces y APIs** del Smart Room Control
 
 ---
 
-## 2. API REST del Coordinador (Opcional)
+## 2. APIs Existentes de mcp-client (Base)
 
 ### 2.1 Introducción
+
+Como se documenta en [00-ADR-Base-Tecnologica.md](./00-ADR-Base-Tecnologica.md#adr-001-uso-de-mcp-client-cli-como-base-del-proyecto), SRCS hereda varias APIs y componentes de **mcp-client-cli**. Esta sección documenta las **interfaces existentes** que SRCS reutiliza sin modificación o con extensiones mínimas.
+
+**Componentes Base con APIs:**
+1. **McpToolkit** - API para integración de servidores MCP
+2. **SqliteStore** - API de almacenamiento key-value con vectores
+3. **AppConfig** - API de configuración del sistema
+4. **Tools del Agente** - Herramientas LangChain integradas
+
+---
+
+### 2.2 API de McpToolkit (Cliente MCP)
+
+**Módulo**: `tool.py`
+**Clase**: `McpToolkit`
+**Propósito**: Toolkit de LangChain para integrar servidores MCP con el agente LLM
+
+#### Métodos Principales
+
+```python
+class McpToolkit(BaseToolkit):
+    """Toolkit para integrar servidores MCP como LangChain tools."""
+
+    def __init__(
+        self,
+        name: str,
+        server_param: StdioServerParameters,
+        exclude_tools: list[str] = []
+    ):
+        """Inicializa el toolkit con configuración de servidor MCP.
+
+        Args:
+            name: Nombre identificador del servidor
+            server_param: Parámetros de conexión stdio (command, args, env)
+            exclude_tools: Lista de nombres de tools a excluir
+        """
+        pass
+
+    async def initialize(self, force_refresh: bool = False) -> None:
+        """Inicializa conexión con servidor MCP y descubre tools.
+
+        Args:
+            force_refresh: Si True, ignora cache y redescubre tools
+
+        Effects:
+            - Conecta al servidor MCP via stdio
+            - Lista tools disponibles (MCP list_tools)
+            - Crea LangChain BaseTool para cada tool
+            - Guarda tools en cache (24h TTL)
+        """
+        pass
+
+    def get_tools(self) -> List[BaseTool]:
+        """Retorna lista de LangChain tools descubiertos.
+
+        Returns:
+            Lista de BaseTool listos para uso en agente
+        """
+        pass
+
+    async def close(self) -> None:
+        """Cierra conexión con servidor MCP y libera recursos."""
+        pass
+```
+
+**Uso en SRCS:**
+```python
+# Configurar servidor MCP IoT
+toolkit = McpToolkit(
+    name="lighting",
+    server_param=StdioServerParameters(
+        command="python",
+        args=["-m", "mcp_lighting_server"],
+        env={"LOG_LEVEL": "INFO"}
+    ),
+    exclude_tools=[]
+)
+
+# Inicializar y obtener tools
+await toolkit.initialize()
+tools = toolkit.get_tools()  # Lista de LangChain BaseTool
+
+# Usar con agente LangGraph
+agent = create_react_agent(llm, tools)
+```
+
+**SRCS Extiende**: Sin cambios en API, solo se agregan nuevos servidores MCP (lighting, climate, security, entertainment)
+
+---
+
+### 2.3 API de SqliteStore (Memoria Persistente)
+
+**Módulo**: `memory.py`
+**Clase**: `SqliteStore`
+**Propósito**: Almacenamiento key-value con namespaces y búsqueda semántica vectorial
+
+#### Métodos Principales (BaseStore Interface)
+
+```python
+class SqliteStore(BaseStore):
+    """SQLite-based store with vector search."""
+
+    def __init__(
+        self,
+        db_path: Union[str, Path],
+        *,
+        index: Optional[IndexConfig] = None
+    ):
+        """Inicializa store con path a DB y config de índice vectorial.
+
+        Args:
+            db_path: Ruta a archivo SQLite
+            index: Configuración opcional para embeddings (campos, modelo)
+        """
+        pass
+
+    async def aput(
+        self,
+        namespace: Tuple[str, ...],
+        key: str,
+        value: Dict[str, Any],
+        index: Optional[Union[bool, List[str]]] = None
+    ) -> None:
+        """Guarda item en el store.
+
+        Args:
+            namespace: Namespace jerárquico (ej: ("memories", "user123"))
+            key: Clave única en el namespace
+            value: Valor JSON-serializable
+            index: Campos a indexar para búsqueda vectorial
+        """
+        pass
+
+    async def aget(
+        self,
+        namespace: Tuple[str, ...],
+        key: str
+    ) -> Optional[Item]:
+        """Recupera item del store.
+
+        Returns:
+            Item con value, created_at, updated_at, o None si no existe
+        """
+        pass
+
+    async def asearch(
+        self,
+        namespace_prefix: Tuple[str, ...],
+        *,
+        filter: Optional[Dict[str, Any]] = None,
+        query: Optional[str] = None,
+        limit: int = 10,
+        offset: int = 0
+    ) -> List[SearchItem]:
+        """Busca items con filtro opcional y búsqueda semántica.
+
+        Args:
+            namespace_prefix: Prefijo de namespace (ej: ("memories",))
+            filter: Filtro JSON sobre campos del value
+            query: Texto para búsqueda semántica (si index configurado)
+            limit/offset: Paginación
+
+        Returns:
+            Lista de SearchItem con score de similaridad (si query)
+        """
+        pass
+```
+
+**Tools Expuestos al Agente:**
+
+```python
+@tool
+async def save_memory(
+    memories: List[str],
+    *,
+    config: RunnableConfig,
+    store: Annotated[BaseStore, InjectedStore()]
+) -> str:
+    """Tool del agente para guardar memorias de usuario.
+
+    Args:
+        memories: Lista de strings a recordar
+        config: Config con user_id
+        store: SqliteStore inyectado automáticamente
+
+    Returns:
+        Confirmación de memorias guardadas
+    """
+    pass
+```
+
+**Uso en SRCS:**
+```python
+# Inicializar store
+store = SqliteStore(
+    db_path="database/smart_room.db",
+    index=IndexConfig(fields=["$"], embed=OpenAIEmbeddings())
+)
+
+# Guardar preferencia Smart Room
+await store.aput(
+    namespace=("smart_room_prefs", "user123"),
+    key="evening_temperature",
+    value={"temp": 22, "time": "18:00-22:00", "confidence": 0.9}
+)
+
+# Buscar preferencias
+prefs = await store.asearch(
+    namespace_prefix=("smart_room_prefs", "user123"),
+    query="temperatura preferida tarde"
+)
+```
+
+**SRCS Extiende**: Usa nuevos namespaces `smart_room_prefs`, `smart_room_scenes` sin modificar API
+
+---
+
+### 2.4 API de AppConfig (Configuración)
+
+**Módulo**: `config.py`
+**Clases**: `LLMConfig`, `ServerConfig`, `AppConfig`
+**Propósito**: Gestión de configuración del sistema desde JSON con comentarios
+
+#### Estructura de Clases
+
+```python
+class LLMConfig(BaseModel):
+    """Configuración del proveedor LLM."""
+    provider: str  # "openai", "anthropic", "ollama", etc.
+    model: str
+    api_key: Optional[str] = None
+    base_url: Optional[str] = None
+    temperature: float = 0.7
+    max_tokens: int = 1000
+
+class ServerConfig(BaseModel):
+    """Configuración de un servidor MCP."""
+    command: str
+    args: List[str]
+    env: Dict[str, str] = {}
+    enabled: bool = True
+    exclude_tools: List[str] = []
+    requires_confirmation: List[str] = []
+
+class AppConfig(BaseModel):
+    """Configuración principal de la aplicación."""
+    systemPrompt: str
+    llm: LLMConfig
+    mcpServers: Dict[str, ServerConfig]
+
+    @classmethod
+    def load(cls, path: Optional[str] = None) -> "AppConfig":
+        """Carga config desde JSON (con soporte de comentarios).
+
+        Args:
+            path: Ruta al config.json, o None para usar default (~/.llm/config.json)
+
+        Returns:
+            AppConfig validado con Pydantic
+
+        Raises:
+            FileNotFoundError: Si config no existe
+            ValidationError: Si config inválido
+        """
+        pass
+```
+
+**Uso en SRCS:**
+```python
+# Cargar config (automático en startup)
+config = AppConfig.load()
+
+# Acceder a configuración LLM
+llm = init_chat_model(
+    model=config.llm.model,
+    model_provider=config.llm.provider,
+    temperature=config.llm.temperature
+)
+
+# Acceder a servidores MCP configurados
+for name, server_config in config.mcpServers.items():
+    if server_config.enabled:
+        toolkit = McpToolkit(name=name, server_param=server_config)
+        # ...
+```
+
+**SRCS Extiende**: Agrega campos opcionales `voice`, `web`, `logging` al AppConfig
+
+---
+
+### 2.5 Herramientas del Agente (LangChain Tools)
+
+**Módulo**: Integrado en `cli.py` y `memory.py`
+**Propósito**: Tools nativos disponibles para el agente LLM
+
+#### Tool: save_memory
+
+```python
+@tool
+async def save_memory(
+    memories: List[str],
+    *,
+    config: RunnableConfig,
+    store: Annotated[BaseStore, InjectedStore()]
+) -> str:
+    """Guarda memorias para el usuario actual.
+
+    El agente LLM usa este tool cuando el usuario expresa preferencias
+    o información importante que debe recordarse.
+
+    Args:
+        memories: Lista de hechos/preferencias a guardar
+
+    Returns:
+        Confirmación con número de memorias guardadas
+
+    Example:
+        User: "Me gusta que la temperatura esté a 22 grados por las tardes"
+        Agent: <usa save_memory(["Usuario prefiere 22°C en tardes"])>
+    """
+    user_id = config.get("configurable", {}).get("user_id")
+    namespace = ("memories", user_id)
+    for memory in memories:
+        id = uuid.uuid4().hex
+        await store.aput(namespace, f"memory_{id}", {"data": memory})
+    return f"Saved memories: {memories}"
+```
+
+**Uso Interno en Agente:**
+```python
+# El agente LLM decide automáticamente usar el tool
+agent_state = {
+    "messages": [HumanMessage(content="Me gusta 22 grados")],
+    "memories": await get_memories(store, user_id)
+}
+
+result = await agent.ainvoke(agent_state, config={"user_id": "myself"})
+# Agent internamente llama save_memory si detecta preferencia
+```
+
+**SRCS Extiende**: Sin cambios, se usa tal cual
+
+---
+
+### 2.6 Resumen de APIs Heredadas
+
+| API/Componente | Módulo | Modificación en SRCS | Uso en SRCS |
+|----------------|--------|----------------------|-------------|
+| `McpToolkit` | tool.py | ✅ Sin cambios | Integrar servidores MCP IoT |
+| `SqliteStore` | memory.py | ➕ Nuevos namespaces | Guardar preferencias/escenas |
+| `AppConfig` | config.py | ➕ Campos opcionales | Config unificada |
+| `save_memory` tool | memory.py | ✅ Sin cambios | Aprendizaje de preferencias |
+| `AsyncSqliteSaver` | LangGraph | ✅ Sin cambios | Checkpoints del agente |
+
+**Total de APIs reutilizadas**: 5 componentes principales
+
+**Beneficio**: ~60% del código de integración LLM↔MCP ya implementado
+
+---
+
+## 3. API REST del Coordinador (Opcional)
+
+### 3.1 Introducción
 
 La API REST es **opcional** y proporciona acceso programático al sistema para:
 - Interfaces web de administración
@@ -407,7 +771,7 @@ POST /api/v1/scenes/1/activate
 
 ---
 
-## 3. Herramientas MCP - Especificación Detallada
+## 4. Herramientas MCP - Especificación Detallada (Nuevas para SRCS)
 
 ### 3.1 Introducción
 
@@ -1120,7 +1484,7 @@ Similar a `climate_get_current_temperature` pero incluye información adicional 
 
 ---
 
-## 4. Interfaces de Conectores IoT
+## 5. Interfaces de Conectores IoT
 
 ### 4.1 BaseConnector (Clase Abstracta)
 
@@ -1430,7 +1794,7 @@ class OnvifCameraConnector(BaseConnector):
 
 ---
 
-## 5. Interfaz de Voz
+## 6. Interfaz de Voz
 
 ### 5.1 Speech-to-Text (Whisper)
 
@@ -1580,7 +1944,7 @@ audio_file = await tts.synthesize_speech(
 
 ---
 
-## 6. Especificación OpenAPI
+## 7. Especificación OpenAPI
 
 ### 6.1 OpenAPI 3.0 Schema Completo
 

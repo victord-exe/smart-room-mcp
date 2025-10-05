@@ -153,7 +153,43 @@ El Smart Room Control System (SRCS) es un sistema nuevo que introduce una arquit
 
 - **Home Assistant**: SRCS puede integrarse con Home Assistant como una de sus plataformas de dispositivos IoT, pero no depende exclusivamente de ella.
 
-- **mcp-client-cli**: El proyecto puede aprovechar componentes del cliente MCP CLI existente como base, pero extenderlo específicamente para el dominio Smart Room.
+#### 2.1.1 Base Tecnológica: mcp-client-cli
+
+**Decisión Arquitectónica** (ver [00-ADR-Base-Tecnologica.md](./00-ADR-Base-Tecnologica.md#adr-001-uso-de-mcp-client-cli-como-base-del-proyecto)):
+
+SRCS se construye sobre **[mcp-client-cli](https://github.com/adhikasp/mcp-client-cli)** mediante **fork y extensión**, reutilizando aproximadamente **40% de los requisitos funcionales** (13/33 RF) ya implementados en el proyecto base.
+
+**Componentes Heredados de mcp-client:**
+
+| Componente | Implementado en mcp-client | Requisitos Cubiertos |
+|------------|---------------------------|----------------------|
+| Cliente Coordinador MCP | ✅ `tool.py` (McpToolkit) | RF-007, RF-008, RF-011 |
+| Agente LLM con LangChain/LangGraph | ✅ `cli.py` (create_react_agent) | RF-001, RF-002, RF-004, RF-006 |
+| Sistema de Memoria Persistente | ✅ `memory.py` (SqliteStore) | RF-032 |
+| Interfaz STT con Whisper | ✅ `whisperVoiceInterface.py` | RF-019 |
+| Interfaz CLI con Rich | ✅ `output.py`, `input.py` | RF-020, RF-022 |
+| Sistema de Configuración | ✅ `config.py` (AppConfig) | RF-028 (parcial) |
+| Cache de Herramientas MCP | ✅ `storage.py` (24h TTL) | RF-011 |
+| Historial de Conversaciones | ✅ AsyncSqliteSaver (LangGraph) | Soporte para continuación |
+
+**Componentes Nuevos a Desarrollar en SRCS (~60% del proyecto):**
+
+| Componente | Estado | Requisitos a Implementar |
+|------------|--------|-------------------------|
+| Servidores MCP IoT | ❌ Pendiente | RF-012 a RF-015 (CRÍTICO) |
+| Conectores IoT | ❌ Pendiente | RF-016 a RF-018 (CRÍTICO) |
+| TTS para voz | ❌ Pendiente | RF-021 |
+| Gestión de Escenas | ❌ Pendiente | RF-024 a RF-026 |
+| Administración Sistema | ❌ Pendiente | RF-027, RF-029, RF-030 |
+| Aprendizaje de Preferencias | ❌ Pendiente | RF-031, RF-033 |
+| Extensión de Base de Datos | ❌ Pendiente | Tablas: devices, scenes, action_logs, system_metrics |
+
+**Impacto en Requisitos:**
+
+- **Requisitos Funcionales Implementados**: RF-001, RF-002, RF-004, RF-006, RF-007, RF-008, RF-011, RF-019, RF-020, RF-022, RF-028 (parcial), RF-032
+- **Requisitos Funcionales Pendientes**: RF-003, RF-005, RF-009, RF-010, RF-012 a RF-018, RF-021, RF-023 a RF-027, RF-029 a RF-031, RF-033
+- **Ahorro Estimado**: ~90 horas de desarrollo (37.5% del tiempo total)
+- **Estrategia**: Fork del repositorio + creación de servidores MCP especializados para IoT
 
 **Arquitectura de alto nivel:**
 

@@ -483,9 +483,9 @@ Usar **SQLite 3.x** como base de datos embebida.
 
 | ID | Decisión | Estado | Impacto | Fecha |
 |----|----------|--------|---------|-------|
-| ADR-001 | Usar mcp-client-cli como base | ✅ Aceptado | **Alto** - Ahorra ~90h desarrollo | Ene 2025 |
-| ADR-002 | Stack Python + LangChain | ✅ Aceptado | Alto - Define toda la implementación | Ene 2025 |
-| ADR-003 | SQLite como base de datos | ✅ Aceptado | Medio - Simplicidad vs escalabilidad | Ene 2025 |
+| ADR-001 | Usar mcp-client-cli como base | ✅ Aceptado | **Alto** - Ahorra ~90h desarrollo | Oct 2025 |
+| ADR-002 | Stack Python + LangChain | ✅ Aceptado | Alto - Define toda la implementación | Oct 2025 |
+| ADR-003 | SQLite como base de datos | ✅ Aceptado | Medio - Simplicidad vs escalabilidad | Oct 2025 |
 
 ---
 
